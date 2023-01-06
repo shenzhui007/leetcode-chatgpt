@@ -1,0 +1,40 @@
+class Solution:
+    def romanToInt(self, s: str) -> int:
+        # create a dictionary mapping roman numeral to integer value
+        roman_to_int = {
+            "I": 1,
+            "V": 5,
+            "X": 10,
+            "L": 50,
+            "C": 100,
+            "D": 500,
+            "M": 1000
+        }
+        
+        # initialize result to 0
+        result = 0
+        
+        # iterate through the characters in the string, from left to right
+        for i in range(len(s)):
+            # get the current character and its integer value
+            curr_char = s[i]
+            curr_val = roman_to_int[curr_char]
+            
+            # if there are more characters in the string
+            if i + 1 < len(s):
+                # get the next character and its integer value
+                next_char = s[i + 1]
+                next_val = roman_to_int[next_char]
+                
+                # if the next character has a larger integer value
+                if next_val > curr_val:
+                    # subtract the current value from the result
+                    result -= curr_val
+                else:
+                    # add the current value to the result
+                    result += curr_val
+            else:
+                # add the last character's value to the result
+                result += curr_val
+        
+        return result
