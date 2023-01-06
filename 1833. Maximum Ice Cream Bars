@@ -1,0 +1,11 @@
+class Solution:
+    def maxIceCream(self, costs: List[int], coins: int) -> int:
+        costs.sort() # sort the list of costs in ascending order
+        num_ice_creams = 0 # variable to store the number of ice cream bars the boy can buy
+        for cost in costs:
+            if coins >= cost: # check if the boy has enough coins to buy the ice cream bar
+                num_ice_creams += 1 # increase the number of ice cream bars by 1
+                coins -= cost # reduce the number of coins by the cost of the ice cream bar
+            else:
+                break # exit the loop if the boy doesn't have enough coins to buy the next ice cream bar
+        return num_ice_creams # return the number of ice cream bars the boy can buy
