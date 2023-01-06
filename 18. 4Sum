@@ -1,0 +1,52 @@
+class Solution:
+    def fourSum(self, nums: List[int], target: int) -> List[List[int]]:
+        # Edge case: less than 4 elements
+        if len(nums) < 4:
+            return []
+
+        # Sort the list for easier processing
+        nums.sort()
+
+        # Initialize the result list
+        result = []
+
+        # Iterate through the list and get all the unique quadruplets
+        for i in range(len(nums) - 3):
+            # Skip duplicate elements
+            if i > 0 and nums[i] == nums[i-1]:
+                continue
+
+            # Set the target for the 3-sum problem
+            three_sum_target = target - nums[i]
+
+            # Solve the 3-sum problem
+            for j in range(i+1, len(nums) - 2):
+                # Skip duplicate elements
+                if j > i+1 and nums[j] == nums[j-1]:
+                    continue
+
+                # Initialize the pointers for the 2-sum problem
+                left = j+1
+                right = len(nums) - 1
+
+                # Solve the 2-sum problem
+                while left < right:
+                    current_sum = nums[j] + nums[left] + nums[right]
+                    if current_sum == three_sum_target:
+                        result.append([nums[i], nums[j], nums[left], nums[right]])
+
+                        # Skip duplicate elements
+                        while left < right and nums[left] == nums[left+1]:
+                            left += 1
+                        while left < right and nums[right] == nums[right-1]:
+                            right -= 1
+
+                        # Move the pointers
+                        left += 1
+                        right -= 1
+                    elif current_sum < three_sum_target:
+                        left += 1
+                    else:
+                        right -= 1
+
+        return result
