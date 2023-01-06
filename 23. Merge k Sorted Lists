@@ -1,0 +1,33 @@
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:
+        if not lists:
+            return None
+        
+        # create a priority queue to store the nodes
+        # the queue is sorted by the node value
+        pq = []
+        for i, node in enumerate(lists):
+            if node:
+                pq.append((node.val, i, node))
+        heapify(pq)
+        
+        # initialize the head and current nodes of the merged list
+        head = curr = ListNode(0)
+        
+        # keep looping until the priority queue is empty
+        while pq:
+            # get the node with the smallest value
+            val, i, node = heappop(pq)
+            curr.next = node
+            curr = curr.next
+            # add the next node of the popped node to the queue
+            if node.next:
+                heappush(pq, (node.next.val, i, node.next))
+        
+        # return the merged list
+        return head.next
