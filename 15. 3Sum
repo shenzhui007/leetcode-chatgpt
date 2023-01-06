@@ -1,0 +1,50 @@
+class Solution:
+    def threeSum(self, nums: List[int]) -> List[List[int]]:
+            # Edge case: if the length of the input list is less than 3, there cannot be any triplets
+        if len(nums) < 3:
+            return []
+
+        # Sort the input list
+        nums.sort()
+
+        # Initialize a result list to store the triplets
+        result = []
+
+        # Iterate over the list and fix the first element of the triplet
+        for i in range(len(nums) - 2):
+            # If the first element is greater than 0, there cannot be any triplets that sum to 0
+            # because the list is sorted and the other two elements will be positive
+            if nums[i] > 0:
+                break
+
+            # If the current element is the same as the previous element, skip it
+            # to avoid duplicate triplets
+            if i > 0 and nums[i] == nums[i - 1]:
+                continue
+
+            # Initialize the left and right pointers
+            left = i + 1
+            right = len(nums) - 1
+
+            # While the left pointer is less than the right pointer, keep looking for triplets
+            while left < right:
+                # If the sum of the three elements is 0, append the triplet to the result list
+                # and move both pointers inward to look for more triplets
+                if nums[i] + nums[left] + nums[right] == 0:
+                    result.append([nums[i], nums[left], nums[right]])
+                    left += 1
+                    right -= 1
+
+                    # Skip the duplicates
+                    while left < right and nums[left] == nums[left - 1]:
+                        left += 1
+                    while left < right and nums[right] == nums[right + 1]:
+                        right -= 1
+                # If the sum of the three elements is greater than 0, move the right pointer inward
+                elif nums[i] + nums[left] + nums[right] > 0:
+                    right -= 1
+                # If the sum of the three elements is less than 0, move the left pointer inward
+                else:
+                    left += 1
+
+        return result
