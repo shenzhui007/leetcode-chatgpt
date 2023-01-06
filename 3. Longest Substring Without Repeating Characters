@@ -1,0 +1,22 @@
+class Solution:
+    def lengthOfLongestSubstring(self, s: str) -> int:
+        # Initialize a dictionary to store the index of each character
+        char_index = {}
+        # Initialize the start and end indices of the substring and the maximum length
+        start = 0
+        end = 0
+        max_len = 0
+        
+        # Iterate through the characters in the string
+        for i, c in enumerate(s):
+            # If the character is already in the dictionary, update the start index to be the maximum of the current start index and the index stored in the dictionary
+            if c in char_index:
+                start = max(start, char_index[c] + 1)
+            # Update the end index and the maximum length
+            end = i
+            max_len = max(max_len, end - start + 1)
+            # Update the index of the character in the dictionary
+            char_index[c] = i
+            
+        # Return the maximum length
+        return max_len
