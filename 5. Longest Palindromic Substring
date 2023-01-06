@@ -1,0 +1,34 @@
+class Solution:
+    def longestPalindrome(self, s: str) -> str:
+        # Edge case: if the input string is empty or has a length of 1, it is already a palindrome.
+        if len(s) <= 1:
+            return s
+        
+        # Initialize variables to store the start and end indices of the longest palindromic substring.
+        start = 0
+        end = 0
+        
+        # Iterate through each character in the string.
+        for i in range(len(s)):
+            # Check for palindromes of odd length centered at the current character.
+            len1 = self.expandAroundCenter(s, i, i)
+            # Check for palindromes of even length centered between the current character and the next character.
+            len2 = self.expandAroundCenter(s, i, i+1)
+            # Get the maximum length palindrome among the two.
+            max_len = max(len1, len2)
+            # Update the start and end indices if a longer palindrome is found.
+            if max_len > end - start:
+                start = i - (max_len - 1) // 2
+                end = i + max_len // 2
+        
+        # Return the longest palindromic substring.
+        return s[start:end+1]
+    
+    def expandAroundCenter(self, s: str, left: int, right: int) -> int:
+        # While the indices are within the bounds of the string and the characters at the indices are the same,
+        # expand the palindrome.
+        while left >= 0 and right < len(s) and s[left] == s[right]:
+            left -= 1
+            right += 1
+        # Return the length of the palindrome.
+        return right - left - 1
