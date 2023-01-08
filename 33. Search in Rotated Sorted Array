@@ -1,0 +1,37 @@
+class Solution:
+    def search(self, nums: List[int], target: int) -> int:
+        # Edge case: empty array
+        if not nums:
+            return -1
+        
+        # Edge case: array with one element
+        if len(nums) == 1:
+            return 0 if nums[0] == target else -1
+        
+        # Binary search
+        left, right = 0, len(nums) - 1
+        while left <= right:
+            mid = (left + right) // 2
+            if nums[mid] == target:
+                return mid
+            
+            # Check which half of the array is sorted
+            if nums[left] <= nums[mid]:
+                # Left half is sorted
+                if nums[left] <= target <= nums[mid]:
+                    # Target is in the left half
+                    right = mid - 1
+                else:
+                    # Target is in the right half
+                    left = mid + 1
+            else:
+                # Right half is sorted
+                if nums[mid] <= target <= nums[right]:
+                    # Target is in the right half
+                    left = mid + 1
+                else:
+                    # Target is in the left half
+                    right = mid - 1
+        
+        # Target not found
+        return -1
