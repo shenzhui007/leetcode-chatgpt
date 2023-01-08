@@ -1,0 +1,47 @@
+class Solution:
+    def longestValidParentheses(self, s: str) -> int:
+        # Edge case: if the input string is empty or has a length of 1, it cannot contain a valid
+        # parentheses substring
+        if len(s) < 2:
+            return 0
+
+        # Initialize variables to keep track of the maximum valid substring length and the
+        # number of open parentheses
+        max_length = 0
+        open_count = 0
+
+        # Initialize a stack to store the indices of open parentheses
+        stack = []
+
+        # Iterate through the input string, keeping track of the start index of the current
+        # substring
+        start = 0
+        for i, c in enumerate(s):
+            if c == '(':
+                # If we see an open parenthesis, increment the count and add its index to the stack
+                open_count += 1
+                stack.append(i)
+            else:
+                # If we see a closed parenthesis, check if it can be matched with an open
+                # parenthesis
+                if open_count > 0:
+                    # If there is an open parenthesis to match, pop its index from the stack
+                    stack.pop()
+
+                    # Calculate the length of the current valid substring
+                    if stack:
+                        length = i - stack[-1]
+                    else:
+                        length = i - start + 1
+
+                    # Update the maximum valid substring length if necessary
+                    max_length = max(max_length, length)
+
+                    # Decrement the count of open parentheses
+                    open_count -= 1
+                else:
+                    # If there is no open parenthesis to match the closed one, reset the start
+                    # index of the current substring
+                    start = i + 1
+
+        return max_length
