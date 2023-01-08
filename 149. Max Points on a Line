@@ -1,0 +1,38 @@
+class Solution:
+    def maxPoints(self, points: List[List[int]]) -> int:
+        # Edge case: less than 3 points
+        if len(points) < 3:
+            return len(points)
+
+        # Initialize maximum number of points on a line to 0
+        max_points = 0
+
+        # Iterate through each point in the array
+        for i in range(len(points)):
+            # Initialize a dictionary to store the slope between the reference point and other points
+            slopes = {}
+            # Initialize the count of points on a line to 1 (for the reference point)
+            points_on_line = 1
+            # Initialize the reference point
+            ref_point = points[i]
+
+            # Iterate through the other points
+            for j in range(len(points)):
+                if i == j:
+                    continue
+                # Calculate the slope between the reference point and the current point
+                slope = float('inf') if ref_point[0] == points[j][0] else (points[j][1] - ref_point[1]) / (points[j][0] - ref_point[0])
+                # If the slope already exists in the dictionary, it means that another point with the same slope already exists
+                # Increment the count of points on a line by 1
+                if slope in slopes:
+                    slopes[slope] += 1
+                    points_on_line = max(points_on_line, slopes[slope])
+                # If the slope does not exist in the dictionary, add it and set the count to 2 (for the reference point and the current point)
+                else:
+                    slopes[slope] = 2
+                    points_on_line = max(points_on_line, slopes[slope])
+
+            # Update the maximum number of points on a line
+            max_points = max(max_points, points_on_line)
+
+        return max_points
