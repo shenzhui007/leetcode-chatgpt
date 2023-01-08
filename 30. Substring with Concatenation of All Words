@@ -1,0 +1,48 @@
+class Solution:
+    def findSubstring(self, s: str, words: List[str]) -> List[int]:
+        # Edge case: if the list of words is empty, there can be no concatenated substrings
+        if not words:
+            return []
+        
+        # Get the length of each word
+        word_length = len(words[0])
+        
+        # Create a hash map to store the frequencies of each word in the list of words
+        word_count = {}
+        for word in words:
+            if word in word_count:
+                word_count[word] += 1
+            else:
+                word_count[word] = 1
+        
+        # Initialize a list to store the starting indices of concatenated substrings
+        result = []
+        
+        # Iterate through the string s
+        for i in range(len(s) - len(words) * word_length + 1):
+            # Create a copy of the hash map for the current sliding window
+            current_count = word_count.copy()
+            
+            # Initialize a variable to store the number of words matched in the current sliding window
+            matched = 0
+            
+            # Iterate through the current sliding window
+            for j in range(i, i + len(words) * word_length, word_length):
+                # Get the word at the current position in the sliding window
+                word = s[j:j + word_length]
+                
+                # If the word is not in the hash map or its frequency is 0, it cannot be part of a concatenated string
+                if word not in current_count or current_count[word] == 0:
+                    break
+                
+                # Decrement the frequency of the word in the hash map
+                current_count[word] -= 1
+                
+                # Increment the number of words matched
+                matched += 1
+            
+            # If the number of words matched is equal to the number of words, the current sliding window is a concatenated string
+            if matched == len(words):
+                result.append(i)
+        
+        return result
