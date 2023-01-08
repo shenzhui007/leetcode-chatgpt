@@ -1,0 +1,25 @@
+class Solution:
+    def nextPermutation(self, nums: List[int]) -> None:
+        """
+        Do not return anything, modify nums in-place instead.
+        """
+        # find the first decreasing element from the end
+        i = len(nums) - 2
+        while i >= 0 and nums[i] >= nums[i+1]:
+            i -= 1
+        
+        # if the array is already sorted in descending order, sort it in ascending order
+        if i < 0:
+            nums.sort()
+            return
+        
+        # find the next largest element after the first decreasing element
+        j = len(nums) - 1
+        while nums[j] <= nums[i]:
+            j -= 1
+        
+        # swap the next largest element with the first decreasing element
+        nums[i], nums[j] = nums[j], nums[i]
+        
+        # reverse the portion of the array after the first decreasing element
+        nums[i+1:] = reversed(nums[i+1:])
