@@ -1,0 +1,26 @@
+class Solution:
+    def searchRange(self, nums: List[int], target: int) -> List[int]:
+        # Edge case: empty input
+        if not nums:
+            return [-1, -1]
+        
+        # Binary search to find the target value
+        low = 0
+        high = len(nums) - 1
+        while low <= high:
+            mid = (low + high) // 2
+            if nums[mid] < target:
+                low = mid + 1
+            elif nums[mid] > target:
+                high = mid - 1
+            else:
+                # Target found, now search for the start and end positions
+                start = end = mid
+                while start > 0 and nums[start-1] == target:
+                    start -= 1
+                while end < len(nums)-1 and nums[end+1] == target:
+                    end += 1
+                return [start, end]
+        
+        # Target not found
+        return [-1, -1]
