@@ -1,0 +1,48 @@
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def reverseKGroup(self, head: Optional[ListNode], k: int) -> Optional[ListNode]:
+        # Edge case: if k is 0 or 1, we don't need to reverse the list at all
+        if k in (0, 1):
+            return head
+
+        # Initialize a new "dummy" node that will act as the head of the reversed list
+        dummy = ListNode(0)
+        dummy.next = head
+
+        # Initialize pointers to keep track of the current group of k nodes
+        prev_group_tail = dummy
+        curr_group_head = head
+
+        while curr_group_head:
+            # Initialize a pointer to the head of the next group
+            next_group_head = curr_group_head
+            for i in range(k):
+                # If the next group has fewer than k nodes, we're done
+                if not next_group_head:
+                    return dummy.next
+
+                next_group_head = next_group_head.next
+
+            # Reverse the current group of k nodes
+            prev = next_group_head
+            curr = curr_group_head
+            for i in range(k):
+                temp = curr.next
+                curr.next = prev
+                prev = curr
+                curr = temp
+
+            # Link the reversed group to the previous group
+            prev_group_tail.next = prev
+            curr_group_head.next = next_group_head
+
+            # Update the pointers for the next iteration
+            prev_group_tail = curr_group_head
+            curr_group_head = next_group_head
+
+        # Return the head of the reversed list
+        return dummy.next
