@@ -1,0 +1,36 @@
+class Solution:
+    def divide(self, dividend: int, divisor: int) -> int:
+        if dividend == 0:
+            return 0
+        
+        # handle negative values
+        negative = False
+        if dividend < 0:
+            negative = not negative
+            dividend = abs(dividend)
+        if divisor < 0:
+            negative = not negative
+            divisor = abs(divisor)
+        
+        # initialize the quotient to 0
+        quotient = 0
+        while dividend >= divisor:
+            temp = divisor
+            multiple = 1
+            while dividend >= temp:
+                dividend -= temp
+                quotient += multiple
+                temp <<= 1
+                multiple <<= 1
+        
+        # handle negative result
+        if negative:
+            quotient = -quotient
+        
+        # handle overflow
+        if quotient > 2147483647:
+            return 2147483647
+        if quotient < -2147483648:
+            return -2147483648
+        
+        return quotient
