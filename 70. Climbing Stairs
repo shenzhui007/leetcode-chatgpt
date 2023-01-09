@@ -1,0 +1,18 @@
+class Solution:
+    def climbStairs(self, n: int) -> int:
+        # Initialize the cache with the base cases
+        cache = {0: 1, 1: 1}
+        
+        # Define a recursive function to count the number of ways to climb the staircase
+        def countWays(n: int) -> int:
+            # If the number of steps is already in the cache, return it
+            if n in cache:
+                return cache[n]
+            
+            # Otherwise, compute the number of ways to climb the staircase and add it to the cache
+            ways = countWays(n - 1) + countWays(n - 2)
+            cache[n] = ways
+            return ways
+        
+        # Return the number of ways to climb the staircase
+        return countWays(n)
