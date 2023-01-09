@@ -1,0 +1,18 @@
+class Solution:
+    def plusOne(self, digits: List[int]) -> List[int]:
+        # Convert the list of digits to a number
+        num = 0
+        for d in digits:
+            num = num * 10 + d
+        
+        # Increment the number by one
+        num += 1
+        
+        # Convert the number back to a list of digits
+        result = []
+        while num > 0:
+            result.append(num % 10)
+            num //= 10
+        
+        # Return the result in reverse order (since we want the most significant digit to be first)
+        return result[::-1]
