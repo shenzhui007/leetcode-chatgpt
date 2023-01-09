@@ -1,0 +1,10 @@
+class Solution:
+    def grayCode(self, n: int) -> List[int]:
+        # Initialize the result array
+        result = [0]
+        # Iterate over the number of bits
+        for i in range(n):
+            # Add the next element to the result array
+            for j in range(len(result) - 1, -1, -1):
+                result.append(result[j] | (1 << i))
+        return result
