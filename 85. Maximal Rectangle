@@ -1,0 +1,38 @@
+class Solution:
+    def maximalRectangle(self, matrix: List[List[str]]) -> int:
+        if not matrix:
+            return 0
+        rows = len(matrix)
+        cols = len(matrix[0])
+        # Create a histogram from the matrix
+        histogram = [0] * cols
+        max_area = 0
+        for row in matrix:
+            # Update the histogram for each row
+            for i in range(cols):
+                if row[i] == '1':
+                    histogram[i] += 1
+                else:
+                    histogram[i] = 0
+            # Calculate the maximum rectangle area using the histogram
+            stack = []
+            for i in range(cols):
+                # While stack is non-empty and the current height is less than the height at the top of the stack
+                while stack and histogram[i] < histogram[stack[-1]]:
+                    # Pop the top element from the stack
+                    h = histogram[stack.pop()]
+                    # Calculate the width as the distance from the current element to the last element in the stack
+                    w = i - stack[-1] - 1 if stack else i
+                    # Update max_area
+                    max_area = max(max_area, h * w)
+                # Push the current index onto the stack
+                stack.append(i)
+            # While the stack is non-empty
+            while stack:
+                # Pop the top element from the stack
+                h = histogram[stack.pop()]
+                # Calculate the width as the distance from the current element to the last element in the stack
+                w = cols - stack[-1] - 1 if stack else cols
+                # Update max_area
+                max_area = max(max_area, h * w)
+        return max_area
