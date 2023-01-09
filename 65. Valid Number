@@ -1,0 +1,5 @@
+class Solution:
+    def isNumber(self, s: str) -> bool:
+        # Use a regular expression to check if the string is a valid number
+        match = re.fullmatch(r'[+-]?(\d+(\.\d*)?|\.\d+)([eE][+-]?\d+)?', s)
+        return bool(match)
