@@ -1,0 +1,29 @@
+class Solution:
+    def getPermutation(self, n: int, k: int) -> str:
+        # Initialize a list of numbers from 1 to n
+        numbers = [i for i in range(1, n+1)]
+
+        # Initialize a variable to store the permutation
+        permutation = ""
+
+        # Initialize a variable to keep track of the current index
+        index = k - 1
+
+        # Loop through the numbers in descending order
+        for i in range(n, 0, -1):
+            # Calculate the number of permutations for the remaining numbers
+            factorial = math.factorial(i-1)
+
+            # Find the index of the current number in the list of remaining numbers
+            curr_index = index // factorial
+
+            # Add the current number to the permutation
+            permutation += str(numbers[curr_index])
+
+            # Remove the current number from the list of remaining numbers
+            numbers.pop(curr_index)
+
+            # Update the index to the remainder of the division
+            index %= factorial
+
+        return permutation
