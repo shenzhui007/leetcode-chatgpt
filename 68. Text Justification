@@ -1,0 +1,51 @@
+class Solution:
+    def fullJustify(self, words: List[str], maxWidth: int) -> List[str]:
+        # Initialize the result list
+        result = []
+        
+        # Initialize the current line and its length
+        line = []
+        length = 0
+        
+        # Iterate over the words
+        for word in words:
+            # If adding the word to the current line would exceed the max width,
+            # then add the current line to the result and start a new line
+            if length + len(word) + len(line) > maxWidth:
+                result.append(self.justifyLine(line, length, maxWidth))
+                line = []
+                length = 0
+            
+            # Add the word to the current line
+            line.append(word)
+            length += len(word)
+        
+        # Add the last line to the result (left-justified)
+        result.append(' '.join(line).ljust(maxWidth))
+        
+        return result
+    
+    def justifyLine(self, line, length, maxWidth):
+        # If the line has only one word, then left-justify it
+        if len(line) == 1:
+            return line[0].ljust(maxWidth)
+        
+        # Calculate the number of spaces to be distributed
+        spaces = maxWidth - length
+        
+        # Distribute the spaces evenly among the words
+        space_per_word, extra_spaces = divmod(spaces, len(line)-1)
+        space_str = ' ' * space_per_word
+        extra_space_str = ' ' * (space_per_word + 1)
+        
+        # Justify the line
+        justified_line = ''
+        for i, word in enumerate(line[:-1]):
+            justified_line += word
+            if i < extra_spaces:
+                justified_line += extra_space_str
+            else:
+                justified_line += space_str
+        justified_line += line[-1]
+        
+        return justified_line
