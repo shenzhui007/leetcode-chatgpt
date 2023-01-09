@@ -1,0 +1,25 @@
+class Solution:
+    def minDistance(self, word1: str, word2: str) -> int:
+        # Initialize the cache with the base cases
+        cache = {}
+        for i in range(len(word1)+1):
+            cache[i, 0] = i
+        for j in range(len(word2)+1):
+            cache[0, j] = j
+        
+        # Define a recursive function to find the minimum number of operations
+        def minOps(i: int, j: int) -> int:
+            # If the number of operations is already in the cache, return it
+            if (i, j) in cache:
+                return cache[i, j]
+            
+            # Otherwise, compute the minimum number of operations and add it to the cache
+            if word1[i-1] == word2[j-1]:
+                ops = minOps(i-1, j-1)
+            else:
+                ops = 1 + min(minOps(i-1, j), minOps(i, j-1), minOps(i-1, j-1))
+            cache[i, j] = ops
+            return ops
+        
+        # Return the minimum number of operations
+        return minOps(len(word1), len(word2))
