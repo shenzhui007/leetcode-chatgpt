@@ -1,0 +1,55 @@
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def rotateRight(self, head: Optional[ListNode], k: int) -> Optional[ListNode]:
+        # Handle edge case where head is None or k is 0
+        if not head or not k:
+            return head
+
+        # Get the length of the linked list
+        length = self.getLength(head)
+
+        # Normalize k to be between 0 and length-1
+        k = k % length
+
+        # Handle edge case where k is 0 after normalization
+        if not k:
+            return head
+
+        # Find the kth node from the end of the linked list
+        curr = head
+        for i in range(length - k - 1):
+            curr = curr.next
+
+        # Save a reference to the kth node from the end
+        kth_node = curr
+
+        # Find the last node in the linked list
+        while curr.next:
+            curr = curr.next
+
+        # Set the next node of the last node to be the head
+        curr.next = head
+
+        # Set the head to be the next node of the kth node from the end
+        head = kth_node.next
+
+        # Set the next node of the kth node from the end to be None
+        kth_node.next = None
+
+        return head
+
+    def getLength(self, head: Optional[ListNode]) -> int:
+        # Initialize a counter for the length
+        length = 0
+
+        # Iterate through the linked list and increment the counter
+        curr = head
+        while curr:
+            length += 1
+            curr = curr.next
+
+        return length
