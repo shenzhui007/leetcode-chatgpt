@@ -1,0 +1,20 @@
+class Solution:
+    def subsetsWithDup(self, nums: List[int]) -> List[List[int]]:
+        # Sort the input array
+        nums.sort()
+        # Initialize the result array
+        result = []
+        # Recursive helper function
+        def helper(start, path):
+            # Add the current path to the result array
+            result.append(path)
+            # Iterate over the remaining elements in the array
+            for i in range(start, len(nums)):
+                # Skip duplicates
+                if i > start and nums[i] == nums[i - 1]:
+                    continue
+                # Add the current element to the path and recurse
+                helper(i + 1, path + [nums[i]])
+        # Call the helper function with an empty path
+        helper(0, [])
+        return result
