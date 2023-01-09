@@ -1,0 +1,13 @@
+class Solution:
+    def combine(self, n: int, k: int) -> List[List[int]]:
+        # base case: if k is 0, return an empty list
+        if k == 0:
+            return [[]]
+        # base case: if n is less than k, there are no combinations
+        elif n < k:
+            return []
+        # recursive case: generate combinations with and without n
+        else:
+            with_n = [[n] + comb for comb in self.combine(n-1, k-1)]
+            without_n = self.combine(n-1, k)
+            return with_n + without_n
