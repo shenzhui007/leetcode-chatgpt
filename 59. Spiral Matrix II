@@ -1,0 +1,42 @@
+class Solution:
+    def generateMatrix(self, n: int) -> List[List[int]]:
+        # Initialize empty matrix of size n x n
+        matrix = [[0] * n for _ in range(n)]
+
+        # Initialize variables to keep track of current position and direction
+        row = 0
+        col = 0
+        direction = 0  # 0: right, 1: down, 2: left, 3: up
+
+        # Loop through values from 1 to n^2
+        for i in range(1, n**2 + 1):
+            # Assign the current value to the current position
+            matrix[row][col] = i
+
+            # Update the current position based on the current direction
+            if direction == 0:  # Moving right
+                col += 1
+                if col == n or matrix[row][col] != 0:  # End of row or occupied position
+                    direction = 1  # Change direction to down
+                    col -= 1  # Go back to previous position
+                    row += 1  # Move down to next row
+            elif direction == 1:  # Moving down
+                row += 1
+                if row == n or matrix[row][col] != 0:  # End of column or occupied position
+                    direction = 2  # Change direction to left
+                    row -= 1  # Go back to previous position
+                    col -= 1  # Move left to previous column
+            elif direction == 2:  # Moving left
+                col -= 1
+                if col < 0 or matrix[row][col] != 0:  # Beginning of row or occupied position
+                    direction = 3  # Change direction to up
+                    col += 1  # Go back to previous position
+                    row -= 1  # Move up to previous row
+            else:  # Moving up
+                row -= 1
+                if row < 0 or matrix[row][col] != 0:  # Beginning of column or occupied position
+                    direction = 0  # Change direction to right
+                    row += 1  # Go back to previous position
+                    col += 1  # Move right to next column
+
+        return matrix
