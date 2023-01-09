@@ -1,0 +1,36 @@
+class Solution:
+    def searchMatrix(self, matrix: List[List[int]], target: int) -> bool:
+        if not matrix:
+            return False
+        
+        m = len(matrix)
+        n = len(matrix[0])
+
+        # Binary search the correct row
+        left = 0
+        right = m - 1
+        while left <= right:
+            mid = (left + right) // 2
+            if matrix[mid][0] <= target <= matrix[mid][-1]:
+                row = mid
+                break
+            elif matrix[mid][0] > target:
+                right = mid - 1
+            else:
+                left = mid + 1
+        else:
+            return False
+
+        # Binary search the correct column
+        left = 0
+        right = n - 1
+        while left <= right:
+            mid = (left + right) // 2
+            if matrix[row][mid] == target:
+                return True
+            elif matrix[row][mid] > target:
+                right = mid - 1
+            else:
+                left = mid + 1
+
+        return False
