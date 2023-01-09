@@ -1,0 +1,14 @@
+class Solution:
+    def subsets(self, nums: List[int]) -> List[List[int]]:
+        def generate_subsets(curr_index, curr_subset):
+            if curr_index == len(nums):
+                res.append(curr_subset)
+                return
+            # generate subsets without including the current element
+            generate_subsets(curr_index + 1, curr_subset)
+            # generate subsets by including the current element
+            generate_subsets(curr_index + 1, curr_subset + [nums[curr_index]])
+
+        res = []
+        generate_subsets(0, [])
+        return res
