@@ -1,0 +1,62 @@
+class Solution:
+    def minWindow(self, s: str, t: str) -> str:
+        # Edge case: If t is longer than s, we cannot find a valid window
+        if len(t) > len(s):
+            return ""
+        
+        # Initialize a dictionary to store the frequency of each character in t
+        char_freq = {}
+        for c in t:
+            if c not in char_freq:
+                char_freq[c] = 1
+            else:
+                char_freq[c] += 1
+        
+        # Initialize variables to keep track of the window
+        min_window_length = float("inf")
+        min_window_start = 0
+        min_window_end = 0
+        
+        # Initialize variables to keep track of the current window
+        cur_window_start = 0
+        cur_window_end = 0
+        cur_char_freq = char_freq.copy()
+        
+        # Keep track of the number of unique characters we have seen so far
+        num_unique_chars = len(char_freq)
+        
+        # Slide the window through the string until we reach the end
+        while cur_window_end < len(s):
+            # Add the current character to the window
+            cur_char = s[cur_window_end]
+            if cur_char in cur_char_freq:
+                cur_char_freq[cur_char] -= 1
+                if cur_char_freq[cur_char] == 0:
+                    num_unique_chars -= 1
+            
+            # If we have seen all the unique characters, try to shrink the window
+            while num_unique_chars == 0:
+                # Update the minimum window if necessary
+                if cur_window_end - cur_window_start < min_window_length:
+                    min_window_length = cur_window_end - cur_window_start
+                    min_window_start = cur_window_start
+                    min_window_end = cur_window_end
+                
+                # Remove the first character from the window
+                first_char = s[cur_window_start]
+                if first_char in cur_char_freq:
+                    cur_char_freq[first_char] += 1
+                    if cur_char_freq[first_char] > 0:
+                        num_unique_chars += 1
+                
+                # Move the start of the window to the right
+                cur_window_start += 1
+            
+            # Move the end of the window to the right
+            cur_window_end += 1
+        
+        # Return the minimum window as a substring
+        if min_window_length == float("inf"):
+            return ""
+        else:
+            return s[min_window_start:min_window_end+1]
