@@ -1,0 +1,21 @@
+class Solution:
+    def spiralOrder(self, matrix: List[List[int]]) -> List[int]:
+        if not matrix:
+            return []
+
+        m, n = len(matrix), len(matrix[0])
+        visited = [[False] * n for _ in range(m)]
+        result = []
+        dirs = [(0, 1), (1, 0), (0, -1), (-1, 0)]
+        curr_dir = 0
+        curr_pos = (0, 0)
+        for _ in range(m * n):
+            result.append(matrix[curr_pos[0]][curr_pos[1]])
+            visited[curr_pos[0]][curr_pos[1]] = True
+            next_pos = (curr_pos[0] + dirs[curr_dir][0], curr_pos[1] + dirs[curr_dir][1])
+            if (next_pos[0] < 0 or next_pos[0] >= m or next_pos[1] < 0 or next_pos[1] >= n or
+                    visited[next_pos[0]][next_pos[1]]):
+                curr_dir = (curr_dir + 1) % 4
+                next_pos = (curr_pos[0] + dirs[curr_dir][0], curr_pos[1] + dirs[curr_dir][1])
+            curr_pos = next_pos
+        return result
