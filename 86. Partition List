@@ -1,0 +1,29 @@
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def partition(self, head: Optional[ListNode], x: int) -> Optional[ListNode]:
+        # Create two linked lists, one for elements less than x and one for elements greater than or equal to x
+        less_than = ListNode()
+        greater_than_or_equal_to = ListNode()
+        curr_less_than = less_than
+        curr_greater_than_or_equal_to = greater_than_or_equal_to
+        curr = head
+        while curr is not None:
+            # If the current element is less than x, add it to the less_than list
+            if curr.val < x:
+                curr_less_than.next = curr
+                curr_less_than = curr_less_than.next
+            # If the current element is greater than or equal to x, add it to the greater_than_or_equal_to list
+            else:
+                curr_greater_than_or_equal_to.next = curr
+                curr_greater_than_or_equal_to = curr_greater_than_or_equal_to.next
+            curr = curr.next
+        # Set the next pointer of the last element in the less_than list to the head of the greater_than_or_equal_to list
+        curr_less_than.next = greater_than_or_equal_to.next
+        # Set the next pointer of the last element in the greater_than_or_equal_to list to None
+        curr_greater_than_or_equal_to.next = None
+        # Return the head of the less_than list
+        return less_than.next
