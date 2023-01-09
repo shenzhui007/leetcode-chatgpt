@@ -1,0 +1,28 @@
+class Solution:
+    def largestRectangleArea(self, heights: List[int]) -> int:
+        # Create a stack to store indices of heights
+        stack = []
+        # Initialize max_area to 0
+        max_area = 0
+        # Iterate through heights
+        for i in range(len(heights)):
+            # While stack is non-empty and the current height is less than the height at the top of the stack
+            while stack and heights[i] < heights[stack[-1]]:
+                # Pop the top element from the stack
+                h = heights[stack.pop()]
+                # Calculate the width as the distance from the current element to the last element in the stack
+                w = i - stack[-1] - 1 if stack else i
+                # Update max_area
+                max_area = max(max_area, h * w)
+            # Push the current index onto the stack
+            stack.append(i)
+        # While the stack is non-empty
+        while stack:
+            # Pop the top element from the stack
+            h = heights[stack.pop()]
+            # Calculate the width as the distance from the current element to the last element in the stack
+            w = len(heights) - stack[-1] - 1 if stack else len(heights)
+            # Update max_area
+            max_area = max(max_area, h * w)
+        # Return max_area
+        return max_area
