@@ -1,0 +1,11 @@
+class Solution:
+    def addBinary(self, a: str, b: str) -> str:
+        # Convert the binary strings to integers
+        x = int(a, 2)
+        y = int(b, 2)
+        
+        # Add the integers
+        z = x + y
+        
+        # Convert the result back to a binary string
+        return bin(z)[2:]
