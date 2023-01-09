@@ -1,0 +1,56 @@
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def deleteDuplicates(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        # Edge case: empty list
+        if head is None:
+            return None
+        
+        # Initialize the current node and the next node
+        curr = head
+        next = head.next
+        
+        # Keep track of the previous node
+        prev = None
+        
+        # Initialize a flag to indicate if the current node is a duplicate
+        is_duplicate = False
+        
+        # Iterate through the list
+        while next is not None:
+            # If the current value is equal to the next value, set the flag to indicate a duplicate
+            if curr.val == next.val:
+                is_duplicate = True
+            # If the current value is not equal to the next value
+            else:
+                # If the current value is a duplicate, update the previous node's next pointer to skip the current node
+                if is_duplicate:
+                    # If the head is a duplicate, update the head to the next node
+                    if prev is None:
+                        head = next
+                    # If the head is not a duplicate, update the previous node's next pointer
+                    else:
+                        prev.next = next
+                # If the current value is not a duplicate, update the previous node
+                else:
+                    prev = curr
+                # Reset the flag
+                is_duplicate = False
+                # Update the current node
+                curr = next
+            # Update the next node
+            next = next.next
+        
+        # Check if the last element is a duplicate
+        if is_duplicate:
+            # If the head is a duplicate, return an empty list
+            if prev is None:
+                return None
+            # If the head is not a duplicate, update the previous node's next pointer to skip the last element
+            else:
+                prev.next = None
+        
+        return head
