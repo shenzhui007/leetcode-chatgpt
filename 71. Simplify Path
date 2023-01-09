@@ -1,0 +1,25 @@
+class Solution:
+    def simplifyPath(self, path: str) -> str:
+        # Initialize the stack
+        stack = []
+        
+        # Split the path into a list of directories
+        dirs = path.split('/')
+        
+        # Iterate over the directories
+        for d in dirs:
+            # Skip empty directories
+            if d == '' or d == '.':
+                continue
+            # If the directory is "..", pop the top directory from the stack
+            elif d == '..':
+                if stack:
+                    stack.pop()
+            # Otherwise, push the directory onto the stack
+            else:
+                stack.append(d)
+        
+        # Build the simplified path
+        simplified_path = '/' + '/'.join(stack)
+        
+        return simplified_path
