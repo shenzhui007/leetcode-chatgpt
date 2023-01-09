@@ -1,0 +1,25 @@
+class Solution:
+    def isValidSudoku(self, board: List[List[str]]) -> bool:
+        # check rows
+        for row in board:
+            if not self.isValid(row):
+                return False
+        
+        # check columns
+        for col in range(9):
+            column = [board[i][col] for i in range(9)]
+            if not self.isValid(column):
+                return False
+        
+        # check sub-boxes
+        for i in range(3):
+            for j in range(3):
+                sub_box = [board[x][y] for x in range(3*i, 3*i+3) for y in range(3*j, 3*j+3)]
+                if not self.isValid(sub_box):
+                    return False
+        
+        return True
+    
+    def isValid(self, lst: List[str]) -> bool:
+        lst = [x for x in lst if x != '.']
+        return len(set(lst)) == len(lst)
