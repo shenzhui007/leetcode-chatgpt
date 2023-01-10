@@ -1,0 +1,21 @@
+class Solution:
+    def restoreIpAddresses(self, s: str) -> List[str]:
+        def is_valid_ip(s: str) -> bool:
+            # Check if s is a valid integer between 0 and 255 (inclusive)
+            if not s or len(s) > 3 or (s[0] == '0' and len(s) > 1) or int(s) > 255:
+                return False
+            return True
+
+        def backtrack(s: str, path: List[str], res: List[str]) -> None:
+            if not s and len(path) == 4:
+                res.append('.'.join(path))
+                return
+
+            for i in range(1, 4):
+                if i <= len(s):
+                    if is_valid_ip(s[:i]):
+                        backtrack(s[i:], path + [s[:i]], res)
+
+        res = []
+        backtrack(s, [], res)
+        return res
