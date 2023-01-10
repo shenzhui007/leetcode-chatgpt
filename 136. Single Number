@@ -1,0 +1,11 @@
+class Solution:
+    def singleNumber(self, nums: List[int]) -> int:
+        # Initialize a variable to store the single number
+        single = 0
+        
+        # Use XOR to cancel out all the pairs
+        for num in nums:
+            single ^= num
+        
+        # The final value of 'single' is the single number that appears once
+        return single
