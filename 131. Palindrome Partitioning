@@ -1,0 +1,18 @@
+class Solution:
+    def partition(self, s: str) -> List[List[str]]:
+        def isPalindrome(string: str) -> bool:
+            return string == string[::-1]
+        
+        def dfs(start, current, partitions):
+            if start == len(s):
+                partitions.append(list(current))
+                return
+            for i in range(start, len(s)):
+                if isPalindrome(s[start:i+1]):
+                    current.append(s[start:i+1])
+                    dfs(i+1, current, partitions)
+                    current.pop()
+                    
+        partitions = []
+        dfs(0, [], partitions)
+        return partitions
