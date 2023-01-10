@@ -1,0 +1,13 @@
+class Solution:
+    def singleNumber(self, nums: List[int]) -> int:
+        # Initialize variables to store the counts of each bit
+        one, two = 0, 0
+        
+        # Iterate through all the elements in the array
+        for num in nums:
+            # Update the counts of each bit
+            one = (one ^ num) & ~two
+            two = (two ^ num) & ~one
+            
+        # The final value of 'one' is the single number that appears once
+        return one
