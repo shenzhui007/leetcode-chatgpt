@@ -1,0 +1,15 @@
+class Solution:
+    def maxProduct(self, nums: List[int]) -> int:
+        max_product = nums[0]
+        min_product = nums[0]
+        overall_max = nums[0]
+
+        for i in range(1, len(nums)):
+            current = nums[i]
+            temp = max_product
+
+            max_product = max(current, current*max_product, current*min_product)
+            min_product = min(current, current*temp, current*min_product)
+
+            overall_max = max(overall_max, max_product)
+        return overall_max
