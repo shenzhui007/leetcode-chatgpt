@@ -1,0 +1,27 @@
+class Solution:
+    def isInterleave(self, s1: str, s2: str, s3: str) -> bool:
+        # Edge case: if the lengths of s1 and s2 do not add up to the length of s3, return False
+        if len(s1) + len(s2) != len(s3):
+            return False
+        
+        # Initialize a 2D array to store the interleaving status for each character in s1 and s2
+        dp = [[False] * (len(s2)+1) for _ in range(len(s1)+1)]
+        
+        # Base case: when s1 and s2 are both empty, s3 is an interleaving of s1 and s2
+        dp[0][0] = True
+        
+        # Iterate over the characters in s1 and s2
+        for i in range(len(s1)+1):
+            for j in range(len(s2)+1):
+                # If i and j are both non-zero, check if the current characters of s1, s2, and s3 are equal
+                if i > 0 and j > 0:
+                    dp[i][j] = (s1[i-1] == s3[i+j-1] and dp[i-1][j]) or (s2[j-1] == s3[i+j-1] and dp[i][j-1])
+                # If only i is non-zero, check if the current character of s1 is equal to the current character of s3
+                elif i > 0:
+                    dp[i][j] = s1[i-1] == s3[i+j-1] and dp[i-1][j]
+                # If only j is non-zero, check if the current character of s2 is equal to the current character of s3
+                elif j > 0:
+                    dp[i][j] = s2[j-1] == s3[i+j-1] and dp[i][j-1]
+        
+        # Return the interleaving status for the last characters of s1 and s2
+        return dp[-1][-1]
