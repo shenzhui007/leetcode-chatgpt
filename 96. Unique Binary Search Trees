@@ -1,0 +1,19 @@
+class Solution:
+    def numTrees(self, n: int) -> int:
+        # Initialize an array to store the number of unique BSTs for each value of n
+        dp = [0] * (n + 1)
+        
+        # Base case: when n = 0 or 1, there is only 1 unique BST
+        dp[0] = 1
+        dp[1] = 1
+        
+        # Iterate over the rest of the values of n
+        for i in range(2, n+1):
+            # For each value of n, iterate over the values j that could be the root of the BST
+            for j in range(1, i+1):
+                # The number of unique BSTs with value j as the root is the product of the number of unique BSTs with j-1 nodes on the left (j-1), and the number of unique BSTs with i-j nodes on the right (i-j).
+                # This is because the root j splits the tree into two subtrees: one with values 1 to (j-1) and one with values (j+1) to n.
+                dp[i] += dp[j-1] * dp[i-j]
+        
+        # Return the number of unique BSTs with n nodes
+        return dp[n]
