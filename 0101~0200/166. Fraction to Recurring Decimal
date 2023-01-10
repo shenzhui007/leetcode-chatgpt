@@ -1,0 +1,37 @@
+class Solution:
+    def fractionToDecimal(self, numerator: int, denominator: int) -> str:
+        if numerator == 0:
+            return "0"
+        if denominator == 0:
+            return ""  # undefined
+        
+        res = ""
+        
+        if (numerator < 0) ^ (denominator < 0):
+            res += "-"
+        
+        numerator = abs(numerator)
+        denominator = abs(denominator)
+        
+        res += str(numerator // denominator)
+        
+        if numerator % denominator == 0:
+            return res
+        
+        res += "."
+        remainder_pos = {}
+        remainder = numerator % denominator
+        i = len(res)
+        
+        while remainder:
+            if remainder in remainder_pos:
+                res = res[:remainder_pos[remainder]] + "(" + res[remainder_pos[remainder]:] + ")"
+                return res
+            
+            remainder_pos[remainder] = i
+            i += 1
+            remainder *= 10
+            res += str(remainder // denominator)
+            remainder %= denominator
+        
+        return res
