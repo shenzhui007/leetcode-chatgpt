@@ -1,0 +1,22 @@
+class Solution:
+    def wordBreak(self, s: str, wordDict: List[str]) -> bool:
+        # Create a set for constant time lookup
+        words = set(wordDict)
+        
+        # Create an array to store the possible segmentations
+        dp = [False] * (len(s) + 1)
+        
+        # The empty string can be segmented, so set the first element to True
+        dp[0] = True
+        
+        for i in range(len(s) + 1):
+            # Iterate through all possible substrings
+            for j in range(i):
+                # If the current substring can be segmented and the next
+                # word exists in the dictionary, the complete string can be segmented
+                if dp[j] and s[j:i] in words:
+                    dp[i] = True
+                    break
+        
+        # Return the segmentation of the complete string
+        return dp[len(s)]
