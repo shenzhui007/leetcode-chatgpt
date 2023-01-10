@@ -1,0 +1,33 @@
+class Solution:
+    def search(self, nums: List[int], target: int) -> bool:
+        # check for empty array
+        if not nums:
+            return False
+        
+        # check if array is already sorted (not rotated)
+        if nums[0] <= nums[-1]:
+            return target in nums
+        
+        # find the pivot point
+        left, right = 0, len(nums) - 1
+        while left < right:
+            mid = (left + right) // 2
+            if nums[mid] > nums[right]:
+                left = mid + 1
+            else:
+                right = mid
+        pivot = left
+        
+        # find the target using binary search
+        left, right = 0, len(nums) - 1
+        while left <= right:
+            mid = (left + right) // 2
+            # adjust mid to account for pivot
+            mid_adj = (mid + pivot) % len(nums)
+            if nums[mid_adj] == target:
+                return True
+            elif nums[mid_adj] < target:
+                left = mid + 1
+            else:
+                right = mid - 1
+        return False
