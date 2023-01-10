@@ -1,0 +1,33 @@
+class Solution:
+    def solve(self, board: List[List[str]]) -> None:
+        """
+        Do not return anything, modify board in-place instead.
+        """
+        if not board or not board[0]:
+            return 
+        row, col = len(board), len(board[0])
+        directions = [(1,0),(-1,0),(0,1),(0,-1)]
+        q = []
+        for r in range(row):
+            if board[r][0] == "O":
+                q.append((r, 0))
+            if board[r][col-1] == "O":
+                q.append((r, col-1))
+        for c in range(col):
+            if board[0][c] == "O":
+                q.append((0, c))
+            if board[row-1][c] == "O":
+                q.append((row-1, c))
+                
+        while q:
+            x, y = q.pop(0)
+            if 0 <= x < row and 0 <= y < col and board[x][y] == "O":
+                board[x][y] = "T"
+                for dx, dy in directions:
+                    q.append((x+dx, y+dy))
+        for r in range(row):
+            for c in range(col):
+                if board[r][c] == "T":
+                    board[r][c] = "O"
+                elif board[r][c] == "O":
+                    board[r][c] = "X"
