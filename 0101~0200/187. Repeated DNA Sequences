@@ -1,0 +1,19 @@
+class Solution:
+    def findRepeatedDnaSequences(self, s: str) -> List[str]:
+        # Initialize a dictionary to store the sequences and their occurrences
+        sequences = {}
+        # Iterate through the DNA sequence
+        for i in range(len(s) - 9):
+            # Extract a 10-letter substring
+            substring = s[i:i+10]
+            # If the substring is already in the dictionary, add it to the list of repeating sequences
+            if substring in sequences:
+                sequences[substring] += 1
+            else:
+                sequences[substring] = 1
+        # Initialize a list to store the repeating sequences
+        repeating = []
+        for key,value in sequences.items():
+            if value>1:
+                repeating.append(key)
+        return repeating
