@@ -1,0 +1,12 @@
+class Solution:
+    def largestNumber(self, nums: List[int]) -> str:
+        # define a key function to compare the elements of nums
+        def cmp(a, b):
+            return int(str(b) + str(a)) - int(str(a) + str(b))
+
+        # sort the list of integers using the key function
+        nums = sorted(nums, key=functools.cmp_to_key(cmp))
+        
+        # join the integers and convert to string
+        res = "".join(map(str, nums))
+        return res if res[0] != '0' else '0'
