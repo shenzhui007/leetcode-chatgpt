@@ -1,0 +1,17 @@
+class Solution:
+    def isHappy(self, n: int) -> bool:
+        slow = n
+        fast = n
+        
+        while True:
+            slow = self.next_num(slow)
+            fast = self.next_num(fast)
+            fast = self.next_num(fast)
+            if slow == fast:
+                break
+        return slow == 1
+    def next_num(self, n: int) -> int:
+        next_n = 0
+        for char in str(n):
+            next_n += int(char)**2
+        return next_n
