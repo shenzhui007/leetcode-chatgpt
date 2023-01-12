@@ -1,0 +1,46 @@
+class TrieNode:
+    def __init__(self):
+        self.children = {}
+        self.is_word = False
+        self.word = None
+
+class Solution:
+    def findWords(self, board: List[List[str]], words: List[str]) -> List[str]:
+        def dfs(node, i, j):
+            if node.is_word:
+                self.result.append(node.word)
+                node.is_word = False
+            if i < 0 or i >= m or j < 0 or j >= n:
+                return
+            if not node:
+                return
+            if board[i][j] in node.children:
+                ch = board[i][j]
+                node = node.children[ch]
+                temp = board[i][j]
+                board[i][j] = '#'
+                dfs(node, i+1, j)
+                dfs(node, i-1, j)
+                dfs(node, i, j+1)
+                dfs(node, i, j-1)
+                board[i][j] = temp
+
+        def build_trie(words):
+            root = TrieNode()
+            for word in words:
+                node = root
+                for char in word:
+                    if char not in node.children:
+                        node.children[char] = TrieNode()
+                    node = node.children[char]
+                node.is_word = True
+                node.word = word
+            return root
+
+        self.result = []
+        trie = build_trie(words)
+        m, n = len(board), len(board[0])
+        for i in range(m):
+            for j in range(n):
+                dfs(trie, i, j)
+        return list(set(self.result))
