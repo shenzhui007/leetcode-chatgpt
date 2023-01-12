@@ -1,0 +1,39 @@
+class Solution:
+    def calculate(self, s: str) -> int:
+        num_stack = []
+        op_stack = []
+        num = 0
+        for c in s:
+            if c.isdigit():
+                num = num*10 + int(c)
+            elif c in "+-*/":
+                num_stack.append(num)
+                num = 0
+                while op_stack and self.precedence(op_stack[-1]) >= self.precedence(c):
+                    op = op_stack.pop()
+                    right, left = num_stack.pop(), num_stack.pop()
+                    num_stack.append(self.apply_operator(left, right, op))
+                op_stack.append(c)
+        num_stack.append(num)
+        while op_stack:
+            op = op_stack.pop()
+            right, left = num_stack.pop(), num_stack.pop()
+            num_stack.append(self.apply_operator(left, right, op))
+        return int(num_stack[-1])
+    
+    def apply_operator(self, left: int, right: int, op: str) -> int:
+        if op == '+':
+            return left + right
+        elif op == '-':
+            return left - right
+        elif op == '*':
+            return left * right
+        elif op == '/':
+            return left // right
+    
+    def precedence(self, op: str) -> int:
+        if op in '+-':
+            return 1
+        elif op in '*/':
+            return 2
+        return 0
