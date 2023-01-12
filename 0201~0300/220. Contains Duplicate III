@@ -1,9 +1,16 @@
 class Solution:
     def containsNearbyAlmostDuplicate(self, nums: List[int], indexDiff: int, valueDiff: int) -> bool:
-        d = {}
+        if valueDiff < 0: return False
+        buckets = {}
         for i, n in enumerate(nums):
-            for j in range(max(i - indexDiff, 0), i + indexDiff + 1):
-                if j in d and abs(n - d[j]) <= valueDiff:
-                    return True
-            d[i] = n
+            b = n // (valueDiff + 1)
+            if b in buckets:
+                return True
+            if b - 1 in buckets and abs(n - buckets[b - 1]) <= valueDiff:
+                return True
+            if b + 1 in buckets and abs(n - buckets[b + 1]) <= valueDiff:
+                return True
+            buckets[b] = n
+            if i >= indexDiff:
+                del buckets[nums[i - indexDiff] // (valueDiff + 1)]
         return False
