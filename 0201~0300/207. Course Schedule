@@ -1,0 +1,19 @@
+class Solution:
+    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
+        graph = defaultdict(list)
+        in_degree = defaultdict(int)
+        
+        for x, y in prerequisites:
+            graph[y].append(x)
+            in_degree[x] += 1
+        
+        q = [i for i in range(numCourses) if in_degree[i] == 0]
+        
+        while q:
+            curr = q.pop(0)
+            for neighbor in graph[curr]:
+                in_degree[neighbor] -= 1
+                if in_degree[neighbor] == 0:
+                    q.append(neighbor)
+                    
+        return sum(in_degree.values()) == 0
