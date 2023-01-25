@@ -1,0 +1,23 @@
+class Solution:
+    def closestMeetingNode(self, edges: List[int], node1: int, node2: int) -> int:
+        def dfs(node, parent, dist, distances, visited):
+            if node in visited:
+                return
+            visited.add(node)
+            distances[node] = dist
+            if edges[node] != -1 and edges[node] != parent:
+                dfs(edges[node], node, dist + 1, distances, visited)
+
+        distances1 = [float('inf')] * len(edges)
+        distances2 = [float('inf')] * len(edges)
+        dfs(node1, -1, 0, distances1, set())
+        dfs(node2, -1, 0, distances2, set())
+        
+        closest_node = -1
+        min_dist = float('inf')
+        for i in range(len(edges)):
+            if distances1[i] != float('inf') and distances2[i] != float('inf'):
+                if max(distances1[i], distances2[i]) < min_dist:
+                    min_dist = max(distances1[i], distances2[i])
+                    closest_node = i
+        return closest_node
