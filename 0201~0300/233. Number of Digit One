@@ -1,0 +1,9 @@
+class Solution:
+    def countDigitOne(self, n: int) -> int:
+        if n <= 0:
+            return 0
+        ones, m = 0, 1
+        while m <= n:
+            ones += (n//(10*m))*m + min(max(n%(10*m)-m+1,0),m)
+            m *= 10
+        return ones
