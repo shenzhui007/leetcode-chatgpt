@@ -1,0 +1,33 @@
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+
+    def __init__(self, head: Optional[ListNode]):
+        self.head = head
+        self.length = 0
+        
+        # calculate length of the linked list
+        curr = self.head
+        while curr:
+            self.length += 1
+            curr = curr.next
+
+    def getRandom(self) -> int:
+        # generate a random index
+        rand_index = random.randint(0, self.length - 1)
+        
+        # traverse the linked list until the random index is reached
+        curr = self.head
+        for i in range(rand_index):
+            curr = curr.next
+        
+        # return the value of the node at the random index
+        return curr.val
+
+
+# Your Solution object will be instantiated and called as such:
+# obj = Solution(head)
+# param_1 = obj.getRandom()
