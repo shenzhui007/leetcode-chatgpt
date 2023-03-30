@@ -1,0 +1,14 @@
+class Solution:
+    def numSquares(self, n: int) -> int:
+        # Initialize a list to store the minimum number of squares required for each number up to n.
+        dp = [0] * (n+1)
+        # Loop through all the numbers up to n.
+        for i in range(1, n+1):
+            # Initialize the minimum number of squares as the maximum possible value.
+            dp[i] = i
+            # Loop through all the perfect squares less than or equal to i.
+            for j in range(1, int(i**0.5)+1):
+                # Update the minimum number of squares required for i.
+                dp[i] = min(dp[i], dp[i-j*j]+1)
+        # Return the minimum number of squares required for n.
+        return dp[n]
