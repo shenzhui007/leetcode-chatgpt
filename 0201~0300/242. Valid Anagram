@@ -1,0 +1,23 @@
+class Solution:
+    def isAnagram(self, s: str, t: str) -> bool:
+        if len(s) != len(t):  # If lengths of s and t are not equal, then t can't be an anagram of s
+            return False
+        
+        s_dict = {}  # Create an empty dictionary to store the count of each character in s
+        
+        for char in s:
+            if char in s_dict:
+                s_dict[char] += 1
+            else:
+                s_dict[char] = 1
+        
+        for char in t:
+            if char in s_dict:
+                s_dict[char] -= 1
+            else:
+                return False
+            
+            if s_dict[char] < 0:
+                return False
+        
+        return True
