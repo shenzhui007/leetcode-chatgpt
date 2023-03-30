@@ -1,0 +1,16 @@
+class Solution:
+    def nthUglyNumber(self, n: int) -> int:
+        ugly = [1] # initialize the list of ugly numbers with 1
+        idx_2, idx_3, idx_5 = 0, 0, 0 # initialize the indices for factors 2, 3 and 5
+        while len(ugly) < n:
+            # get the next ugly number as the minimum of the products of the factors with the corresponding indices
+            next_ugly = min(ugly[idx_2]*2, ugly[idx_3]*3, ugly[idx_5]*5)
+            ugly.append(next_ugly) # add the next ugly number to the list
+            # update the indices of the factors used to compute the next ugly number
+            if next_ugly == ugly[idx_2]*2:
+                idx_2 += 1
+            if next_ugly == ugly[idx_3]*3:
+                idx_3 += 1
+            if next_ugly == ugly[idx_5]*5:
+                idx_5 += 1
+        return ugly[-1] # return the last ugly number in the list which is the nth ugly number
