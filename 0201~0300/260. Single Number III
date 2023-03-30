@@ -1,0 +1,23 @@
+class Solution:
+    def singleNumber(self, nums: List[int]) -> List[int]:
+        # Step 1: XOR all the elements in the array
+        xor_val = 0
+        for num in nums:
+            xor_val ^= num
+            
+        # Step 2: Find the rightmost set bit of the XOR result
+        rightmost_set_bit = 1
+        while xor_val & rightmost_set_bit == 0:
+            rightmost_set_bit <<= 1
+    
+        # Step 3: Divide the array into two groups based on the rightmost set bit
+        # Elements with the bit set to 0 will belong to group A, and elements with the bit set to 1 will belong to group B
+        group_a, group_b = 0, 0
+        for num in nums:
+            if num & rightmost_set_bit:
+                group_a ^= num
+            else:
+                group_b ^= num
+        
+        # Step 4: Return the two unique elements
+        return [group_a, group_b]
