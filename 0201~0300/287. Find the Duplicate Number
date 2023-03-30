@@ -1,0 +1,23 @@
+class Solution:
+    def findDuplicate(self, nums: List[int]) -> int:
+        # Use Floyd's cycle-finding algorithm to find the duplicate number
+        slow = nums[0]
+        fast = nums[0]
+        
+        # Move slow pointer one step and fast pointer two steps until they meet
+        while True:
+            slow = nums[slow]
+            fast = nums[nums[fast]]
+            if slow == fast:
+                break
+                
+        # Move one pointer to the start of the array and keep the other at the meeting point
+        ptr1 = nums[0]
+        ptr2 = slow
+        
+        # Move both pointers one step at a time until they meet at the duplicate number
+        while ptr1 != ptr2:
+            ptr1 = nums[ptr1]
+            ptr2 = nums[ptr2]
+            
+        return ptr1
