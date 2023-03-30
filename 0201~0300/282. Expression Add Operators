@@ -1,0 +1,23 @@
+class Solution:
+    def addOperators(self, num: str, target: int) -> List[str]:
+        if not num:
+            return []
+        res = []
+        self.dfs(num, target, 0, "", 0, 0, res)
+        return res
+
+    def dfs(self, num, target, pos, path, eval, mult, res):
+        if pos == len(num):
+            if eval == target:
+                res.append(path)
+            return
+        for i in range(pos, len(num)):
+            if i != pos and num[pos] == '0':
+                break
+            cur = int(num[pos:i+1])
+            if pos == 0:
+                self.dfs(num, target, i+1, str(cur), cur, cur, res)
+            else:
+                self.dfs(num, target, i+1, path+'+'+str(cur), eval+cur, cur, res)
+                self.dfs(num, target, i+1, path+'-'+str(cur), eval-cur, -cur, res)
+                self.dfs(num, target, i+1, path+'*'+str(cur), eval-mult+mult*cur, mult*cur, res)
