@@ -1,0 +1,41 @@
+class Solution:
+    def numberToWords(self, num: int) -> str:
+        def convert_to_word(n):
+            ones = ["", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine"]
+            tens = ["", "", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"]
+            teens = ["Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"]
+
+            if n == 0:
+                return "Zero"
+            elif n < 10:
+                return ones[n]
+            elif n < 20:
+                return teens[n - 10]
+            elif n < 100:
+                word = tens[n // 10]
+                if n % 10:
+                    word += " " + ones[n % 10]
+                return word
+            elif n < 1000:
+                word = ones[n // 100] + " Hundred"
+                if n % 100:
+                    word += " " + convert_to_word(n % 100)
+                return word
+            elif n < 1000000:
+                word = convert_to_word(n // 1000) + " Thousand"
+                if n % 1000:
+                    word += " " + convert_to_word(n % 1000)
+                return word.rstrip()
+            elif n < 1000000000:
+                word = convert_to_word(n // 1000000) + " Million"
+                if n % 1000000:
+                    word += " " + convert_to_word(n % 1000000)
+                return word.rstrip()
+            else:
+                word = convert_to_word(n // 1000000000) + " Billion"
+                if n % 1000000000:
+                    word += " " + convert_to_word(n % 1000000000)
+                return word.rstrip()
+
+
+        return convert_to_word(num)
