@@ -1,0 +1,21 @@
+class Solution:
+    def wordPattern(self, pattern: str, s: str) -> bool:
+        words = s.split()  # Split the string into a list of words
+        if len(pattern) != len(words):  # If the lengths don't match, return False
+            return False
+        char_to_word = {}  # Dictionary to map characters to words
+        word_to_char = {}  # Dictionary to map words to characters
+        for i in range(len(pattern)):
+            char = pattern[i]
+            word = words[i]
+            if char in char_to_word:  # If the character is already mapped to a word
+                if char_to_word[char] != word:  # Check if the word is the same as the previous mapping
+                    return False
+            else:
+                if word in word_to_char:  # If the word is already mapped to a character
+                    if word_to_char[word] != char:  # Check if the character is the same as the previous mapping
+                        return False
+                else:  # If neither the character nor the word is mapped yet
+                    char_to_word[char] = word
+                    word_to_char[word] = char
+        return True  # If all mappings are consistent, return True
