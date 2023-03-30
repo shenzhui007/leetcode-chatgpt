@@ -1,0 +1,25 @@
+class Solution:
+    def diffWaysToCompute(self, expression: str) -> List[int]:
+        memo = {}
+        return self.compute(expression, memo)
+    
+    def compute(self, expression, memo):
+        if expression in memo:
+            return memo[expression]
+        res = []
+        for i in range(len(expression)):
+            if expression[i] in ['+', '-', '*']:
+                left_res = self.compute(expression[:i], memo)
+                right_res = self.compute(expression[i+1:], memo)
+                for left in left_res:
+                    for right in right_res:
+                        if expression[i] == '+':
+                            res.append(left + right)
+                        elif expression[i] == '-':
+                            res.append(left - right)
+                        elif expression[i] == '*':
+                            res.append(left * right)
+        if not res:
+            res.append(int(expression))
+        memo[expression] = res
+        return res
