@@ -1,0 +1,42 @@
+class Solution:
+    def getSkyline(self, buildings: List[List[int]]) -> List[List[int]]:
+        n = len(buildings)
+        if n == 0:
+            return []
+
+        # List to store the result
+        res = []
+        # List to store the height of buildings
+        height = [0] * (2 * n)
+
+        # Fill height list
+        for i in range(n):
+            height[2*i] = (buildings[i][0], -buildings[i][2])
+            height[2*i+1] = (buildings[i][1], buildings[i][2])
+
+        # Sort height list by x-coordinate, breaking ties by following rule:
+        # 1. If two points have the same x-coordinate, the point with a negative height comes first
+        # 2. If two points have the same x-coordinate and same sign, the point with the higher absolute height comes first
+        height.sort(key=lambda x: (x[0], x[1]))
+
+        # Create a priority queue to store the heights of buildings
+        pq = [0]
+        prev_max_height = 0
+
+        # Process the height list
+        for h in height:
+            if h[1] < 0:  # h is a left edge of a building
+                pq.append(-h[1])
+            else:  # h is a right edge of a building
+                pq.remove(h[1])
+            cur_max_height = max(pq)
+            if cur_max_height != prev_max_height:
+                res.append([h[0], cur_max_height])
+                prev_max_height = cur_max_height
+
+        # Check if the last point has the same x-coordinate as the second to last point and remove the last point if it does
+        if len(res) > 1 and res[-1][0] == res[-2][0]:
+            res.pop()
+
+
+        return res
