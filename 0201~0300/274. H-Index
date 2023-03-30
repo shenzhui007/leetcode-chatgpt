@@ -1,0 +1,14 @@
+class Solution:
+    def hIndex(self, citations: List[int]) -> int:
+        citations.sort(reverse=True) # sort the array in descending order
+        h_index = 0
+        
+        # iterate through the sorted array
+        for i in range(len(citations)):
+            # check if the current citation is greater than or equal to the current h-index
+            if citations[i] >= i+1:
+                h_index = i+1
+            else:
+                break
+                
+        return h_index
