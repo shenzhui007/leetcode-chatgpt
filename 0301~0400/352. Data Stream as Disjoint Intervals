@@ -1,0 +1,28 @@
+class SummaryRanges:
+
+    def __init__(self):
+        self.intervals = []
+    
+    def addNum(self, value: int) -> None:
+        new_interval = [value, value]
+        i = 0
+        while i < len(self.intervals):
+            if new_interval[1] + 1 < self.intervals[i][0]:
+                break
+            elif new_interval[0] - 1 > self.intervals[i][1]:
+                i += 1
+            else:
+                new_interval[0] = min(new_interval[0], self.intervals[i][0])
+                new_interval[1] = max(new_interval[1], self.intervals[i][1])
+                self.intervals.pop(i)
+        self.intervals.insert(i, new_interval)
+    
+    def getIntervals(self) -> List[List[int]]:
+        return self.intervals
+        
+
+
+# Your SummaryRanges object will be instantiated and called as such:
+# obj = SummaryRanges()
+# obj.addNum(value)
+# param_2 = obj.getIntervals()
