@@ -1,0 +1,32 @@
+class Solution:
+    def findMinHeightTrees(self, n: int, edges: List[List[int]]) -> List[int]:
+        # Base case:
+        if n <= 1:
+            return [0]
+        
+        # Create the adjacency list of the graph:
+        adj_list = {i:[] for i in range(n)}
+        for a, b in edges:
+            adj_list[a].append(b)
+            adj_list[b].append(a)
+        
+        # Find the leaves of the graph:
+        leaves = deque()
+        for i in range(n):
+            if len(adj_list[i]) == 1:
+                leaves.append(i)
+        
+        # Remove the leaves iteratively until the root(s) is/are reached:
+        remaining_nodes = n
+        while remaining_nodes > 2:
+            leaves_count = len(leaves)
+            remaining_nodes -= leaves_count
+            for i in range(leaves_count):
+                leaf = leaves.popleft()
+                parent = adj_list[leaf][0]
+                adj_list[parent].remove(leaf)
+                if len(adj_list[parent]) == 1:
+                    leaves.append(parent)
+        
+        # Return the root(s) of the MHT(s):
+        return list(leaves)
