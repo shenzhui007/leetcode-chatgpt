@@ -1,0 +1,55 @@
+class NumArray:
+
+    def __init__(self, nums: List[int]):
+        self.nums = nums
+        self.n = len(nums)
+        self.tree = [0] * (self.n * 4)
+        if self.n > 0:
+            self.build(1, 0, self.n - 1)
+
+    def build(self, node, start, end):
+        if start == end:
+            self.tree[node] = self.nums[start]
+        else:
+            mid = (start + end) // 2
+            self.build(node * 2, start, mid)
+            self.build(node * 2 + 1, mid + 1, end)
+            self.tree[node] = self.tree[node * 2] + self.tree[node * 2 + 1]
+
+    def update(self, index: int, val: int) -> None:
+        self.updateTree(1, 0, self.n - 1, index, val)
+        self.nums[index] = val
+
+    def updateTree(self, node, start, end, index, val):
+        if start == end:
+            self.tree[node] = val
+        else:
+            mid = (start + end) // 2
+            if start <= index and index <= mid:
+                self.updateTree(node * 2, start, mid, index, val)
+            else:
+                self.updateTree(node * 2 + 1, mid + 1, end, index, val)
+            self.tree[node] = self.tree[node * 2] + self.tree[node * 2 + 1]
+
+    def sumRange(self, left: int, right: int) -> int:
+        if left > right or left < 0 or right >= self.n:
+            return 0
+        return self.query(1, 0, self.n - 1, left, right)
+
+    def query(self, node, start, end, left, right):
+        if start > right or end < left:
+            return 0
+        elif start >= left and end <= right:
+            return self.tree[node]
+        else:
+            mid = (start + end) // 2
+            p1 = self.query(node * 2, start, mid, left, right)
+            p2 = self.query(node * 2 + 1, mid + 1, end, left, right)
+            return p1 + p2
+        
+
+
+# Your NumArray object will be instantiated and called as such:
+# obj = NumArray(nums)
+# obj.update(index,val)
+# param_2 = obj.sumRange(left,right)
