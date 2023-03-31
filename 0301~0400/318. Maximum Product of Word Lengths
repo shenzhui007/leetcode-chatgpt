@@ -1,0 +1,34 @@
+class Solution:
+    def removeDuplicateLetters(self, s: str) -> str:
+        
+        # Create a dictionary to keep track of the count of each character
+        count = {}
+        for c in s:
+            count[c] = count.get(c, 0) + 1
+        
+        # Create a stack to hold the final result
+        stack = []
+        
+        # Create a set to keep track of the characters already in the stack
+        visited = set()
+        
+        # Iterate through each character in the string
+        for c in s:
+            
+            # Decrease the count of the character in the dictionary
+            count[c] -= 1
+            
+            # If the character is already in the stack, skip it
+            if c in visited:
+                continue
+            
+            # Remove characters from the stack until we find one that is smaller than the current character
+            while stack and stack[-1] > c and count[stack[-1]] > 0:
+                visited.remove(stack.pop())
+            
+            # Add the current character to the stack and mark it as visited
+            stack.append(c)
+            visited.add(c)
+        
+        # Join the characters in the stack to create the final result
+        return ''.join(stack)
