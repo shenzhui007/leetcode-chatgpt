@@ -1,0 +1,21 @@
+class Solution:
+    def maxNumber(self, nums1: List[int], nums2: List[int], k: int) -> List[int]:
+        def get_max_subsequence(nums, k):
+            stack = []
+            n = len(nums)
+            for i in range(n):
+                while stack and len(stack) + n - i > k and stack[-1] < nums[i]:
+                    stack.pop()
+                if len(stack) < k:
+                    stack.append(nums[i])
+            return stack
+
+        m, n = len(nums1), len(nums2)
+        res = []
+        for i in range(max(0, k-n), min(k, m)+1):
+            j = k - i
+            subseq1 = get_max_subsequence(nums1, i)
+            subseq2 = get_max_subsequence(nums2, j)
+            merged_subseq = [max(subseq1, subseq2).pop(0) for _ in range(k)]
+            res = max(res, merged_subseq)
+        return res
