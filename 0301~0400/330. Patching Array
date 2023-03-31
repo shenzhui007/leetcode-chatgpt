@@ -1,0 +1,15 @@
+class Solution:
+    def minPatches(self, nums: List[int], n: int) -> int:
+        patches = 0
+        current_sum = 0
+        index = 0
+        
+        while current_sum < n:
+            if index < len(nums) and nums[index] <= current_sum + 1:
+                current_sum += nums[index]
+                index += 1
+            else:
+                current_sum += current_sum + 1
+                patches += 1
+                
+        return patches
