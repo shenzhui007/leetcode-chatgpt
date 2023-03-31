@@ -1,0 +1,24 @@
+class Solution:
+    def nthSuperUglyNumber(self, n: int, primes: List[int]) -> int:
+        # Initialize variables
+        ugly = [0] * n
+        index = [0] * len(primes)
+        ugly[0] = 1
+
+        # Compute the n-th super ugly number
+        for i in range(1, n):
+            # Find the minimum of all prime factors times the previous ugly number
+            min_val = float("inf")
+            for j in range(len(primes)):
+                min_val = min(min_val, primes[j] * ugly[index[j]])
+
+            # Update the ugly number list
+            ugly[i] = min_val
+
+            # Update the index list for each prime factor
+            for j in range(len(primes)):
+                if primes[j] * ugly[index[j]] == min_val:
+                    index[j] += 1
+
+        # Return the n-th super ugly number
+        return ugly[-1]
