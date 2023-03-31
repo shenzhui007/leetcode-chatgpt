@@ -1,0 +1,33 @@
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def rob(self, root: Optional[TreeNode]) -> int:
+        if not root:
+            return 0
+        
+        # recursive helper function to compute the maximum amount of money that can be robbed
+        # from a subtree rooted at node
+        def rob_subtree(node):
+            if not node:
+                return (0, 0)
+            
+            left_with, left_without = rob_subtree(node.left)
+            right_with, right_without = rob_subtree(node.right)
+            
+            # maximum amount of money that can be robbed from a subtree rooted at node
+            with_node = node.val + left_without + right_without
+            
+            # maximum amount of money that can be robbed from a subtree rooted at the children
+            without_node = max(left_with, left_without) + max(right_with, right_without)
+            
+            return (with_node, without_node)
+        
+        # call the helper function on the root of the binary tree
+        root_with, root_without = rob_subtree(root)
+        
+        # return the maximum amount of money that can be robbed from the whole binary tree
+        return max(root_with, root_without)
