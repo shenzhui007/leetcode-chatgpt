@@ -1,0 +1,12 @@
+class Solution:
+    def topKFrequent(self, nums: List[int], k: int) -> List[int]:
+        # Use Counter to count the frequency of each element in the nums list
+        freq_count = Counter(nums)
+        
+        # Use the most_common() method of Counter to get the k most frequent elements
+        top_k_freq = freq_count.most_common(k)
+        
+        # Extract the elements from the most_common() output
+        top_k_elements = [elem[0] for elem in top_k_freq]
+        
+        return top_k_elements
