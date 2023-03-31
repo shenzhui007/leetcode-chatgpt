@@ -1,0 +1,4 @@
+class Solution:
+    def bulbSwitch(self, n: int) -> int:
+        # the number of bulbs that are on equals the number of perfect squares up to n
+        return int(n ** 0.5)
