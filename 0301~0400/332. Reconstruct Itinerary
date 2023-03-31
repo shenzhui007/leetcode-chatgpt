@@ -1,0 +1,30 @@
+class Solution:
+    def findItinerary(self, tickets: List[List[str]]) -> List[str]:
+        # Create an adjacency list to store the destinations for each airport
+        adj_list = collections.defaultdict(list)
+        for departure, arrival in tickets:
+            adj_list[departure].append(arrival)
+
+        # Sort the destinations in the adjacency list in lexical order
+        for airport in adj_list:
+            adj_list[airport].sort()
+
+        # Initialize a stack with the starting airport
+        stack = ["JFK"]
+        itinerary = []
+
+        while stack:
+            # Get the next airport from the stack
+            airport = stack[-1]
+
+            if airport in adj_list and adj_list[airport]:
+                # If there are destinations from this airport, add the next one to the stack
+                stack.append(adj_list[airport].pop(0))
+            else:
+                # If there are no more destinations from this airport, add it to the itinerary
+                itinerary.append(stack.pop())
+
+        # Reverse the itinerary to get the correct order
+        itinerary.reverse()
+
+        return itinerary
