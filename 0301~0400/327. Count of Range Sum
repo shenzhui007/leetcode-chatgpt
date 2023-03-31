@@ -1,0 +1,51 @@
+class Solution:
+    def countRangeSum(self, nums: List[int], lower: int, upper: int) -> int:
+        # Compute the prefix sums
+        prefix_sums = [0] * (len(nums) + 1)
+        for i in range(len(nums)):
+            prefix_sums[i+1] = prefix_sums[i] + nums[i]
+        
+        # Define the recursive function to count the range sums
+        def countRangeSumRecursive(left: int, right: int) -> int:
+            if left == right:  # Base case: single element
+                return 0
+            else:
+                mid = (left + right) // 2
+                count = countRangeSumRecursive(left, mid) + countRangeSumRecursive(mid+1, right)
+                
+                # Count the number of range sums crossing the mid point
+                i = j = mid + 1
+                for left_sum in prefix_sums[left:mid+1]:
+                    while i <= right and prefix_sums[i] - left_sum < lower:
+                        i += 1
+                    while j <= right and prefix_sums[j] - left_sum <= upper:
+                        j += 1
+                    count += j - i
+                
+                # Merge the sorted subarrays
+                sorted_prefix_sums = [0] * (right - left + 1)
+                i = left
+                j = mid + 1
+                k = 0
+                while i <= mid and j <= right:
+                    if prefix_sums[i] < prefix_sums[j]:
+                        sorted_prefix_sums[k] = prefix_sums[i]
+                        i += 1
+                    else:
+                        sorted_prefix_sums[k] = prefix_sums[j]
+                        j += 1
+                    k += 1
+                while i <= mid:
+                    sorted_prefix_sums[k] = prefix_sums[i]
+                    i += 1
+                    k += 1
+                while j <= right:
+                    sorted_prefix_sums[k] = prefix_sums[j]
+                    j += 1
+                    k += 1
+                prefix_sums[left:right+1] = sorted_prefix_sums
+                
+                return count
+        
+        # Call the recursive function on the entire array
+        return countRangeSumRecursive(0, len(nums))
