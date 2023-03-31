@@ -1,0 +1,27 @@
+class Solution:
+    def maxEnvelopes(self, envelopes: List[List[int]]) -> int:
+        n = len(envelopes)
+        if n == 0:
+            return 0
+        
+        # Sort the envelopes by increasing width, and if widths are equal, by decreasing height.
+        envelopes.sort(key=lambda e: (e[0], -e[1]))
+        
+        # LIS: Longest Increasing Subsequence
+        tails = [envelopes[0][1]]
+        for i in range(1, n):
+            h = envelopes[i][1]
+            if h > tails[-1]:
+                tails.append(h)
+            else:
+                # Find the index of the first element in tails greater than or equal to h.
+                l, r = 0, len(tails) - 1
+                while l < r:
+                    mid = (l + r) // 2
+                    if tails[mid] < h:
+                        l = mid + 1
+                    else:
+                        r = mid
+                tails[l] = h
+        
+        return len(tails)
