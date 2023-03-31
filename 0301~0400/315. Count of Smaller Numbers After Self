@@ -1,0 +1,12 @@
+class Solution:
+    def countSmaller(self, nums: List[int]) -> List[int]:
+        n = len(nums)
+        result = [0] * n
+        sorted_nums = []
+
+        for i in range(n-1, -1, -1):
+            idx = bisect.bisect_left(sorted_nums, nums[i])
+            result[i] = idx
+            sorted_nums.insert(idx, nums[i])
+
+        return result
