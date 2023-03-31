@@ -1,0 +1,51 @@
+class Solution:
+    def palindromePairs(self, words: List[str]) -> List[List[int]]:
+        # A helper function to check if a given string is a palindrome
+        def is_palindrome(s):
+            return s == s[::-1]
+        
+        # A helper function to reverse a string
+        def reverse(s):
+            return s[::-1]
+        
+        # A dictionary to store the indices of the words
+        word_indices = {word: i for i, word in enumerate(words)}
+        
+        # A list to store the palindrome pairs
+        palindrome_pairs = []
+        
+        for i, word in enumerate(words):
+            n = len(word)
+            
+            # Case 1: If the word itself is a palindrome, check for pairs with empty strings and with reversed word
+            if is_palindrome(word):
+                if "" in word_indices and i != word_indices[""]:
+                    j = word_indices[""]
+                    palindrome_pairs.append([i, j])
+                    palindrome_pairs.append([j, i])
+                if i != word_indices.get(reverse(word), i):
+                    palindrome_pairs.append([i, word_indices[reverse(word)]])
+            
+            # Case 2: If the reversed word is present in the dictionary, check for pairs with that reversed word
+            reversed_word = reverse(word)
+            if reversed_word in word_indices and i != word_indices[reversed_word]:
+                palindrome_pairs.append([i, word_indices[reversed_word]])
+            
+            # Case 3: If a prefix of the word is a palindrome, check for pairs with the reversed suffix
+            for j in range(1, n):
+                prefix, suffix = word[:j], word[j:]
+                if is_palindrome(prefix):
+                    if suffix[::-1] in word_indices:
+                        palindrome_pairs.append([word_indices[suffix[::-1]], i])
+                
+            # Case 4: If a suffix of the word is a palindrome, check for pairs with the reversed prefix
+            for j in range(n-1, 0, -1):
+                prefix, suffix = word[:j], word[j:]
+                if is_palindrome(suffix):
+                    if prefix[::-1] in word_indices:
+                        palindrome_pairs.append([i, word_indices[prefix[::-1]]])
+        
+        # Remove duplicates from palindrome_pairs
+        palindrome_pairs = list(set(tuple(pair) for pair in palindrome_pairs))
+        
+        return palindrome_pairs
