@@ -1,0 +1,19 @@
+class Solution:
+
+    def __init__(self, nums: List[int]):
+        self.dict = {}
+        for i, num in enumerate(nums):
+            if num in self.dict:
+                self.dict[num].append(i)
+            else:
+                self.dict[num] = [i]
+    
+    def pick(self, target: int) -> int:
+        indices = self.dict[target]
+        return random.choice(indices)
+        
+
+
+# Your Solution object will be instantiated and called as such:
+# obj = Solution(nums)
+# param_1 = obj.pick(target)
