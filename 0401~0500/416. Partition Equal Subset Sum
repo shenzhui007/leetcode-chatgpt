@@ -1,0 +1,20 @@
+class Solution:
+    def canPartition(self, nums: List[int]) -> bool:
+        # Calculating the total sum of the array
+        total_sum = sum(nums)
+        # If the sum is odd, then the array cannot be divided into two equal subsets
+        if total_sum % 2 != 0:
+            return False
+        # Initializing the dp array
+        dp = [False] * (total_sum + 1)
+        # Setting the 0th index to True, as a subset with sum 0 always exists
+        dp[0] = True
+        # Traversing the array and updating the dp array
+        for num in nums:
+            for i in range(total_sum, -1, -1):
+                if dp[i]:
+                    dp[i+num] = True
+            # If dp[total_sum//2] is True, then it is possible to divide the array into two equal subsets
+            if dp[total_sum//2]:
+                return True
+        return False
