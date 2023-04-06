@@ -1,0 +1,21 @@
+class Solution:
+    def canCross(self, stones: List[int]) -> bool:
+        n = len(stones)
+        if n <= 1:
+            return True
+        if stones[1] != 1:
+            return False
+        jumps = {stone: set() for stone in stones}
+        jumps[0].add(0)
+        for i in range(n):
+            stone = stones[i]
+            for jump in jumps[stone]:
+                for j in range(jump - 1, jump + 2):
+                    if j <= 0:
+                        continue
+                    next_stone = stone + j
+                    if next_stone == stones[-1]:
+                        return True
+                    if next_stone in jumps:
+                        jumps[next_stone].add(j)
+        return False
