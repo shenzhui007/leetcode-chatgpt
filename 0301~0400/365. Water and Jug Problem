@@ -1,0 +1,17 @@
+class Solution:
+    def canMeasureWater(self, jug1Capacity: int, jug2Capacity: int, targetCapacity: int) -> bool:
+        # check if target capacity is greater than the sum of jug capacities, then not possible
+        if targetCapacity > (jug1Capacity + jug2Capacity):
+            return False
+        
+        # check if target capacity is divisible by the greatest common divisor of jug capacities
+        if targetCapacity % self.gcd(jug1Capacity, jug2Capacity) == 0:
+            return True
+        
+        return False
+
+    # helper function to calculate greatest common divisor using Euclid's algorithm
+    def gcd(self, a: int, b: int) -> int:
+        while b:
+            a, b = b, a % b
+        return a
