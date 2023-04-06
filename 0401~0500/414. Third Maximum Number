@@ -1,0 +1,17 @@
+class Solution:
+    def thirdMax(self, nums: List[int]) -> int:
+        first = second = third = float('-inf')
+        distinct_count = 0
+        for num in nums:
+            if num > first:
+                first, second, third = num, first, second
+                distinct_count += 1
+            elif num < first and num > second:
+                second, third = num, second
+                distinct_count += 1
+            elif num < second and num > third:
+                third = num
+                distinct_count += 1
+        if distinct_count < 3:
+            return first
+        return third
