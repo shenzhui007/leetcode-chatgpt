@@ -1,0 +1,13 @@
+class Solution:
+    def reconstructQueue(self, people: List[List[int]]) -> List[List[int]]:
+        # Sort the people array in descending order of height, and then ascending order of k.
+        people.sort(key=lambda x: (-x[0], x[1]))
+        
+        # Create an empty queue to be filled.
+        queue = []
+        
+        # For each person in the sorted people array, insert them into the queue at their k-th position.
+        for person in people:
+            queue.insert(person[1], person)
+        
+        return queue
