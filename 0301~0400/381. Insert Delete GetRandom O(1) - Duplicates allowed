@@ -1,0 +1,41 @@
+class RandomizedCollection:
+
+    def __init__(self):
+        self.val_to_indices = {}
+        self.values = []
+
+    def insert(self, val: int) -> bool:
+        self.values.append(val)
+        if val not in self.val_to_indices:
+            self.val_to_indices[val] = set()
+            self.val_to_indices[val].add(len(self.values) - 1)
+            return True
+        else:
+            self.val_to_indices[val].add(len(self.values) - 1)
+            return False
+
+    def remove(self, val: int) -> bool:
+        if val in self.val_to_indices:
+            index_to_remove = self.val_to_indices[val].pop()
+            last_value = self.values[-1]
+            if index_to_remove != len(self.values) - 1:
+                self.values[index_to_remove] = last_value
+                self.val_to_indices[last_value].discard(len(self.values) - 1)
+                self.val_to_indices[last_value].add(index_to_remove)
+            self.values.pop()
+            if not self.val_to_indices[val]:
+                del self.val_to_indices[val]
+            return True
+        else:
+            return False
+
+    def getRandom(self) -> int:
+        return random.choice(self.values)
+        
+
+
+# Your RandomizedCollection object will be instantiated and called as such:
+# obj = RandomizedCollection()
+# param_1 = obj.insert(val)
+# param_2 = obj.remove(val)
+# param_3 = obj.getRandom()
