@@ -1,0 +1,16 @@
+class Solution:
+    def findMatrix(self, nums: List[int]) -> List[List[int]]:
+        num_set = set(nums)
+        num_count = len(num_set)
+        result = []
+
+        while num_set:
+            row = []
+            for num in num_set:
+                if num in nums:
+                    row.append(num)
+                    nums.remove(num)
+            result.append(row)
+            num_set = set(nums)
+
+        return result
