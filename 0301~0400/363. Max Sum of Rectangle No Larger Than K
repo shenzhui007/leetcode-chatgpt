@@ -1,0 +1,27 @@
+class Solution:
+    def maxSumSubmatrix(self, matrix: List[List[int]], k: int) -> int:
+        rows, cols = len(matrix), len(matrix[0])
+        max_sum = float('-inf')
+        
+        for left in range(cols):
+            row_sums = [0] * rows
+            for right in range(left, cols):
+                for i in range(rows):
+                    row_sums[i] += matrix[i][right]
+                max_sum = max(max_sum, self.findMaxSubarraySum(row_sums, k))
+                if max_sum == k:
+                    return max_sum
+        return max_sum
+    
+    def findMaxSubarraySum(self, row_sums, k):
+        max_sum = float('-inf')
+        current_sum = 0
+        sorted_sums = [0]
+        
+        for sum in row_sums:
+            current_sum += sum
+            index = bisect.bisect_left(sorted_sums, current_sum - k)
+            if index < len(sorted_sums):
+                max_sum = max(max_sum, current_sum - sorted_sums[index])
+            bisect.insort(sorted_sums, current_sum)
+        return max_sum
