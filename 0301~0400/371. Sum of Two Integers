@@ -1,0 +1,15 @@
+class Solution:
+    def getSum(self, a: int, b: int) -> int:
+        # 32-bit mask in hexadecimal
+        mask = 0xffffffff
+        
+        while b & mask > 0:
+            # carry contains common set bits of a and b
+            carry = (a & b) << 1
+            # sum of a and b without common set bits
+            a = a ^ b
+            # carry is shifted by 1 to add to the sum
+            b = carry
+        
+        # handles overflow cases
+        return (a & mask) if b > 0 else a
