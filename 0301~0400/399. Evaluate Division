@@ -1,0 +1,37 @@
+class Solution:
+    def calcEquation(self, equations: List[List[str]], values: List[float], queries: List[List[str]]) -> List[float]:
+        # Create a dictionary to store the variable pairs and their corresponding values
+        variable_pairs = {}
+        for i in range(len(equations)):
+            a, b = equations[i]
+            value = values[i]
+            if a in variable_pairs:
+                variable_pairs[a][b] = value
+            else:
+                variable_pairs[a] = {b: value}
+            if b in variable_pairs:
+                variable_pairs[b][a] = 1 / value
+            else:
+                variable_pairs[b] = {a: 1 / value}
+
+        # Helper function to find the value of the quotient
+        def find_quotient(a, b, visited):
+            if a not in variable_pairs or b not in variable_pairs:
+                return -1.0
+            if b in variable_pairs[a]:
+                return variable_pairs[a][b]
+            visited.add(a)
+            for variable in variable_pairs[a]:
+                if variable not in visited:
+                    quotient = find_quotient(variable, b, visited)
+                    if quotient != -1.0:
+                        return variable_pairs[a][variable] * quotient
+            return -1.0
+
+        # Find the values of all the queries
+        result = []
+        for query in queries:
+            a, b = query
+            visited = set()
+            result.append(find_quotient(a, b, visited))
+        return result
