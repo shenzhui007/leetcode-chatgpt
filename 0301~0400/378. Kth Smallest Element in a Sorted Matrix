@@ -1,0 +1,24 @@
+class Solution:
+    def kthSmallest(self, matrix: List[List[int]], k: int) -> int:
+        # define the range of possible values for the k-th smallest element
+        lo, hi = matrix[0][0], matrix[-1][-1]
+        
+        # binary search for the k-th smallest element
+        while lo < hi:
+            mid = (lo + hi) // 2
+            count = 0
+            j = len(matrix[0]) - 1
+            
+            # count the number of elements in the matrix that are less than or equal to mid
+            for i in range(len(matrix)):
+                while j >= 0 and matrix[i][j] > mid:
+                    j -= 1
+                count += (j + 1)
+            
+            # update the range of possible values for the k-th smallest element
+            if count < k:
+                lo = mid + 1
+            else:
+                hi = mid
+        
+        return lo
