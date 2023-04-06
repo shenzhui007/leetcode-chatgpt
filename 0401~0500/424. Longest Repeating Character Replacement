@@ -1,0 +1,23 @@
+class Solution:
+    def characterReplacement(self, s: str, k: int) -> int:
+        max_len = 0  # variable to keep track of the maximum length of substring containing the same character
+        max_count = 0  # variable to keep track of the maximum count of any character in the current window
+        counts = [0] * 26  # list to keep track of the count of each character in the current window
+        start = 0  # variable to keep track of the start of the current window
+        
+        for end in range(len(s)):
+            # increment the count of the current character
+            counts[ord(s[end]) - ord('A')] += 1
+            
+            # update the maximum count of any character in the current window
+            max_count = max(max_count, counts[ord(s[end]) - ord('A')])
+            
+            # if the number of characters to be replaced (k) is less than the difference between the current window size and the maximum count of any character in the current window, move the window
+            if end - start + 1 - max_count > k:
+                counts[ord(s[start]) - ord('A')] -= 1
+                start += 1
+            
+            # update the maximum length of substring containing the same character
+            max_len = max(max_len, end - start + 1)
+        
+        return max_len
