@@ -1,0 +1,28 @@
+class Solution:
+    def splitArray(self, nums: List[int], k: int) -> int:
+        # define the search range
+        left = max(nums)
+        right = sum(nums)
+        
+        # define a function to check if we can split nums into k subarrays with largest sum <= mid
+        def is_valid(mid):
+            count = 1
+            total = 0
+            for num in nums:
+                total += num
+                if total > mid:
+                    count += 1
+                    total = num
+                    if count > k:
+                        return False
+            return True
+        
+        # binary search for the minimum possible largest sum of subarrays
+        while left < right:
+            mid = (left + right) // 2
+            if is_valid(mid):
+                right = mid
+            else:
+                left = mid + 1
+        
+        return left
