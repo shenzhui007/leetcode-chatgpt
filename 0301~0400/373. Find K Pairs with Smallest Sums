@@ -1,0 +1,14 @@
+class Solution:
+    def kSmallestPairs(self, nums1: List[int], nums2: List[int], k: int) -> List[List[int]]:
+        heap = []
+        for i in range(min(k, len(nums1))):
+            for j in range(min(k, len(nums2))):
+                pair = [nums1[i], nums2[j]]
+                if len(heap) < k:
+                    heapq.heappush(heap, (-sum(pair), pair))
+                else:
+                    if sum(pair) >= -heap[0][0]:
+                        break
+                    heapq.heappop(heap)
+                    heapq.heappush(heap, (-sum(pair), pair))
+        return [pair[1] for pair in heap]
