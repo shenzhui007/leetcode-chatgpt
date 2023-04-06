@@ -1,0 +1,35 @@
+class Solution:
+    def isRectangleCover(self, rectangles: List[List[int]]) -> bool:
+        # find the bounding box of all the rectangles
+        x1 = y1 = float('inf')
+        x2 = y2 = float('-inf')
+        area = 0
+        points = set()
+        for rect in rectangles:
+            x, y, a, b = rect
+            x1 = min(x1, x)
+            y1 = min(y1, y)
+            x2 = max(x2, a)
+            y2 = max(y2, b)
+            area += (a - x) * (b - y)
+            
+            # add the four corners of each rectangle to a set
+            for point in [(x, y), (x, b), (a, y), (a, b)]:
+                if point in points:
+                    points.remove(point)
+                else:
+                    points.add(point)
+                    
+        # check if the area of the bounding box equals the sum of the areas of all the rectangles
+        if area != (x2 - x1) * (y2 - y1):
+            return False
+        
+        # check if there are exactly four corner points and no other points
+        if len(points) != 4:
+            return False
+        
+        # check if the corner points form the corners of the bounding box
+        if (x1, y1) not in points or (x1, y2) not in points or (x2, y1) not in points or (x2, y2) not in points:
+            return False
+        
+        return True
