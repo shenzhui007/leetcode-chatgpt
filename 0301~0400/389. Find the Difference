@@ -1,0 +1,8 @@
+class Solution:
+    def findTheDifference(self, s: str, t: str) -> str:
+        # Compute the ASCII sum of all characters in s and t
+        ascii_sum_s = sum(ord(c) for c in s)
+        ascii_sum_t = sum(ord(c) for c in t)
+        
+        # Return the character whose ASCII code is the difference between the sums
+        return chr(ascii_sum_t - ascii_sum_s)
