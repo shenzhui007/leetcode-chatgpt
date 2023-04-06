@@ -1,0 +1,9 @@
+class Solution:
+    def superPow(self, a: int, b: List[int]) -> int:
+        mod = 1337
+        n = len(b)
+        res = 1
+        a = a % mod
+        for i in range(n):
+            res = pow(res, 10, mod) * pow(a, b[i], mod) % mod
+        return res
