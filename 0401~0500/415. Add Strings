@@ -1,0 +1,35 @@
+class Solution:
+    def addStrings(self, num1: str, num2: str) -> str:
+        # Initialize pointers to the end of the strings
+        i = len(num1) - 1
+        j = len(num2) - 1
+        
+        # Initialize carry and result variables
+        carry = 0
+        result = []
+        
+        # Loop through the strings from end to start
+        while i >= 0 or j >= 0:
+            # Get the current digit from each string, or 0 if no more digits
+            digit1 = int(num1[i]) if i >= 0 else 0
+            digit2 = int(num2[j]) if j >= 0 else 0
+            
+            # Add the digits along with any carry from the previous iteration
+            total = digit1 + digit2 + carry
+            
+            # If the total is greater than 9, we have a carry for the next iteration
+            carry = total // 10
+            
+            # Append the ones digit to the result list
+            result.append(str(total % 10))
+            
+            # Move the pointers one digit to the left
+            i -= 1
+            j -= 1
+        
+        # If there's still a carry left, append it to the result list
+        if carry:
+            result.append(str(carry))
+        
+        # Reverse the result list and join it into a string
+        return ''.join(result[::-1])
