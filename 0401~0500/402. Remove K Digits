@@ -1,0 +1,19 @@
+class Solution:
+    def removeKdigits(self, num: str, k: int) -> str:
+        stack = []
+        for digit in num:
+            while k and stack and stack[-1] > digit:
+                stack.pop()
+                k -= 1
+            stack.append(digit)
+        
+        # If k is still non-zero, remove k digits from the end of the stack
+        while k:
+            stack.pop()
+            k -= 1
+        
+        # Remove leading zeros from the stack
+        while stack and stack[0] == '0':
+            stack.pop(0)
+        
+        return ''.join(stack) if stack else '0'
