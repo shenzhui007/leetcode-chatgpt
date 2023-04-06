@@ -1,0 +1,21 @@
+class Solution:
+    def wiggleMaxLength(self, nums: List[int]) -> int:
+        n = len(nums)
+        if n < 2:
+            return n
+        
+        # Initialize variables to keep track of the length of the longest 
+        # wiggle subsequence and the direction of the previous difference
+        length = 1
+        prev_diff = nums[1] - nums[0]
+        
+        if prev_diff != 0:
+            length = 2
+        
+        for i in range(2, n):
+            diff = nums[i] - nums[i-1]
+            if (diff > 0 and prev_diff <= 0) or (diff < 0 and prev_diff >= 0):
+                length += 1
+                prev_diff = diff
+        
+        return length
