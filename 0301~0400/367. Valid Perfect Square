@@ -1,0 +1,20 @@
+class Solution:
+    def isPerfectSquare(self, num: int) -> bool:
+        # Check for base cases
+        if num < 2:
+            return True
+
+        # Binary search for finding square root of num
+        left, right = 2, num//2
+        while left <= right:
+            mid = (left + right) // 2
+            mid_squared = mid ** 2
+
+            if mid_squared == num:
+                return True
+            elif mid_squared > num:
+                right = mid - 1
+            else:
+                left = mid + 1
+
+        return False
