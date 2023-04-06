@@ -1,0 +1,54 @@
+class Solution:
+    def pacificAtlantic(self, heights: List[List[int]]) -> List[List[int]]:
+        if not heights:
+            return []
+        
+        rows = len(heights)
+        cols = len(heights[0])
+        
+        p_visited = [[False] * cols for _ in range(rows)]
+        a_visited = [[False] * cols for _ in range(rows)]
+        
+        # DFS for cells that can reach Pacific Ocean
+        def dfs_pacific(r, c):
+            p_visited[r][c] = True
+            
+            if r-1 >= 0 and not p_visited[r-1][c] and heights[r-1][c] >= heights[r][c]:
+                dfs_pacific(r-1, c)
+            if r+1 < rows and not p_visited[r+1][c] and heights[r+1][c] >= heights[r][c]:
+                dfs_pacific(r+1, c)
+            if c-1 >= 0 and not p_visited[r][c-1] and heights[r][c-1] >= heights[r][c]:
+                dfs_pacific(r, c-1)
+            if c+1 < cols and not p_visited[r][c+1] and heights[r][c+1] >= heights[r][c]:
+                dfs_pacific(r, c+1)
+        
+        # DFS for cells that can reach Atlantic Ocean
+        def dfs_atlantic(r, c):
+            a_visited[r][c] = True
+            
+            if r-1 >= 0 and not a_visited[r-1][c] and heights[r-1][c] >= heights[r][c]:
+                dfs_atlantic(r-1, c)
+            if r+1 < rows and not a_visited[r+1][c] and heights[r+1][c] >= heights[r][c]:
+                dfs_atlantic(r+1, c)
+            if c-1 >= 0 and not a_visited[r][c-1] and heights[r][c-1] >= heights[r][c]:
+                dfs_atlantic(r, c-1)
+            if c+1 < cols and not a_visited[r][c+1] and heights[r][c+1] >= heights[r][c]:
+                dfs_atlantic(r, c+1)
+        
+        # Start DFS from cells at the edges of the matrix
+        for r in range(rows):
+            dfs_pacific(r, 0)
+            dfs_atlantic(r, cols-1)
+        
+        for c in range(cols):
+            dfs_pacific(0, c)
+            dfs_atlantic(rows-1, c)
+        
+        # Cells that can reach both oceans
+        res = []
+        for r in range(rows):
+            for c in range(cols):
+                if p_visited[r][c] and a_visited[r][c]:
+                    res.append([r, c])
+        
+        return res
