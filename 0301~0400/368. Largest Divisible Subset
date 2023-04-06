@@ -1,0 +1,37 @@
+class Solution:
+    def largestDivisibleSubset(self, nums: List[int]) -> List[int]:
+        if not nums:
+            return []
+        
+        nums.sort()
+        n = len(nums)
+        
+        # Initialize a list to store the size of the largest divisible subset ending at each index
+        dp = [1] * n
+        
+        # Initialize a list to store the index of the last element in the largest divisible subset ending at each index
+        prev = [-1] * n
+        
+        # Loop through each element in the list
+        for i in range(1, n):
+            # Loop through all the previous elements
+            for j in range(i):
+                # If the current element is divisible by the previous element and the size of the largest divisible subset ending at the previous element is greater than the current element
+                if nums[i] % nums[j] == 0 and dp[j] + 1 > dp[i]:
+                    # Update the size of the largest divisible subset ending at the current element and the index of the last element in this subset
+                    dp[i] = dp[j] + 1
+                    prev[i] = j
+        
+        # Find the index of the largest divisible subset
+        max_index = 0
+        for i in range(n):
+            if dp[i] > dp[max_index]:
+                max_index = i
+        
+        # Build the largest divisible subset by following the prev pointers
+        answer = []
+        while max_index != -1:
+            answer.append(nums[max_index])
+            max_index = prev[max_index]
+        
+        return answer[::-1]
