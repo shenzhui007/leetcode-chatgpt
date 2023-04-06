@@ -1,0 +1,24 @@
+class Solution:
+
+    def __init__(self, nums: List[int]):
+        self.original_nums = nums
+        self.shuffled_nums = list(nums)
+
+    def reset(self) -> List[int]:
+        self.shuffled_nums = list(self.original_nums)
+        return self.shuffled_nums
+
+    def shuffle(self) -> List[int]:
+        n = len(self.shuffled_nums)
+        for i in range(n):
+            # choose a random index j such that i <= j < n
+            j = random.randint(i, n - 1)
+            # swap the elements at index i and j
+            self.shuffled_nums[i], self.shuffled_nums[j] = self.shuffled_nums[j], self.shuffled_nums[i]
+        return self.shuffled_nums
+
+
+# Your Solution object will be instantiated and called as such:
+# obj = Solution(nums)
+# param_1 = obj.reset()
+# param_2 = obj.shuffle()
