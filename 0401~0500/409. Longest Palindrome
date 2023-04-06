@@ -1,0 +1,28 @@
+class Solution:
+    def longestPalindrome(self, s: str) -> int:
+        # initialize a dictionary to keep count of each character in the string
+        char_count = {}
+        for char in s:
+            if char in char_count:
+                char_count[char] += 1
+            else:
+                char_count[char] = 1
+                
+        # initialize a variable to keep track of the length of the longest palindrome
+        longest_palindrome = 0
+        
+        # iterate through the character count dictionary
+        for count in char_count.values():
+            # if the count is even, add it to the length of the longest palindrome
+            if count % 2 == 0:
+                longest_palindrome += count
+            # if the count is odd, add count-1 to the length of the longest palindrome
+            # (since odd counts can be used as the center of a palindrome)
+            else:
+                longest_palindrome += count - 1
+        
+        # add 1 to the length of the longest palindrome if there are any characters with odd counts
+        if any(count % 2 == 1 for count in char_count.values()):
+            longest_palindrome += 1
+        
+        return longest_palindrome
