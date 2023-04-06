@@ -1,0 +1,16 @@
+class Solution:
+    def lengthLongestPath(self, input: str) -> int:
+        stack = [(0, 0)]  # (level, length)
+        max_length = 0
+        for line in input.split('\n'):
+            level = line.count('\t')
+            path = line[level:]
+            while len(stack) > level + 1:
+                stack.pop()
+            if '.' in path:
+                length = stack[level][1] + len(path)
+                max_length = max(max_length, length)
+            else:
+                length = stack[level][1] + len(path) + 1
+                stack.append((level, length))
+        return max_length
