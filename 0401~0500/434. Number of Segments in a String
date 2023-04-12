@@ -1,0 +1,14 @@
+class Solution:
+    def countSegments(self, s: str) -> int:
+        # Initialize the count to zero
+        count = 0
+        
+        # Traverse through the string s
+        for i in range(len(s)):
+            # Check if the current character is non-space and the previous character is space or the current character is the first character of the string
+            if (s[i] != ' ' and (i == 0 or s[i-1] == ' ')):
+                # Increment the count by 1
+                count += 1
+        
+        # Return the count
+        return count
