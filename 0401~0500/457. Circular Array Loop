@@ -1,0 +1,23 @@
+class Solution:
+    def circularArrayLoop(self, nums: List[int]) -> bool:
+        n = len(nums)
+        for i in range(n):
+            if nums[i] == 0:
+                continue
+            slow, fast = i, self.next_index(nums, i)
+            while nums[fast] * nums[i] > 0 and nums[self.next_index(nums, fast)] * nums[i] > 0:
+                if slow == fast:
+                    if slow == self.next_index(nums, slow):
+                        break
+                    return True
+                slow, fast = self.next_index(nums, slow), self.next_index(nums, self.next_index(nums, fast))
+            j = i
+            while nums[j] * nums[self.next_index(nums, j)] > 0:
+                tmp = j
+                j = self.next_index(nums, j)
+                nums[tmp] = 0
+        return False
+    
+    def next_index(self, nums: List[int], i: int) -> int:
+        n = len(nums)
+        return (i + nums[i]) % n
