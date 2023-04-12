@@ -1,0 +1,11 @@
+class Solution:
+    def poorPigs(self, buckets: int, minutesToDie: int, minutesToTest: int) -> int:
+        # Number of trials that can be done with given minutesToTest and minutesToDie
+        num_trials = minutesToTest // minutesToDie
+        
+        # Minimum number of pigs needed to perform the trials
+        num_pigs = 0
+        while (num_trials + 1) ** num_pigs < buckets:
+            num_pigs += 1
+        
+        return num_pigs
