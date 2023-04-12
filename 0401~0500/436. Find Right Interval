@@ -1,0 +1,37 @@
+class Solution:
+    def findRightInterval(self, intervals: List[List[int]]) -> List[int]:
+        # Create a dictionary to map start values to interval indices
+        start_to_index = {intervals[i][0]: i for i in range(len(intervals))}
+        
+        # Sort the intervals by start value
+        intervals.sort(key=lambda x: x[0])
+        
+        # Initialize the result array to -1 for all intervals
+        result = [-1] * len(intervals)
+        
+        # Loop through each interval
+        for i in range(len(intervals)):
+            # Find the index of the first interval with start value >= current end value
+            j = self.binary_search(intervals, 0, len(intervals)-1, intervals[i][1])
+            
+            # If a valid index was found, use the start value of the interval to get the result
+            if j is not None:
+                result[start_to_index[intervals[i][0]]] = start_to_index[intervals[j][0]]
+        
+        return result
+    
+    def binary_search(self, intervals, left, right, target):
+        # Perform a binary search to find the index of the first interval with start value >= target
+        while left <= right:
+            mid = (left + right) // 2
+            if intervals[mid][0] < target:
+                left = mid + 1
+            elif mid == 0 or intervals[mid-1][0] < target:
+                return mid
+            else:
+                right = mid - 1
+        # If no interval was found, return None
+        if left >= len(intervals):
+            return None
+        else:
+            return left
