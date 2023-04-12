@@ -1,0 +1,51 @@
+class Solution:
+    def compress(self, chars: List[str]) -> int:
+        """
+        Compresses the input character array using the given algorithm.
+
+        :param chars: List[str] : Input array of characters.
+        :return: int : The new length of the compressed array.
+        """
+        if not chars:
+            return 0
+        
+        # Initialize variables
+        current_char = chars[0]
+        current_count = 1
+        write_index = 0
+        
+        # Compress the input array in-place
+        for i in range(1, len(chars)):
+            if chars[i] == current_char:
+                current_count += 1
+            else:
+                chars[write_index] = current_char
+                write_index += 1
+                
+                if current_count == 1:
+                    pass
+                elif current_count < 10:
+                    chars[write_index] = str(current_count)
+                    write_index += 1
+                else:
+                    for digit in str(current_count):
+                        chars[write_index] = digit
+                        write_index += 1
+                
+                current_char = chars[i]
+                current_count = 1
+        
+        # Write the final character and its count
+        chars[write_index] = current_char
+        write_index += 1
+        if current_count == 1:
+            pass
+        elif current_count < 10:
+            chars[write_index] = str(current_count)
+            write_index += 1
+        else:
+            for digit in str(current_count):
+                chars[write_index] = digit
+                write_index += 1
+        
+        return write_index
