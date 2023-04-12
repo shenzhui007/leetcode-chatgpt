@@ -1,0 +1,23 @@
+# The rand7() API is already defined for you.
+# def rand7():
+# @return a random integer in the range 1 to 7
+
+class Solution:
+    def rand10(self):
+        """
+        :rtype: int
+        """
+        while True:
+            # generate two random numbers from rand7()
+            num1 = rand7()
+            num2 = rand7()
+            
+            # convert them to a single number in the range [1, 49]
+            num = (num1 - 1) * 7 + num2
+            
+            # if num is outside the range [1, 40], reject it and try again
+            if num > 40:
+                continue
+            
+            # map num onto a value in the range [1, 10]
+            return 1 + (num - 1) % 10
