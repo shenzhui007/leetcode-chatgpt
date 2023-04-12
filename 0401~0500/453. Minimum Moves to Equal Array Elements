@@ -1,0 +1,10 @@
+class Solution:
+    def minMoves(self, nums: List[int]) -> int:
+        # Find the minimum value in the array
+        min_num = min(nums)
+        
+        # Compute the sum of the differences between each element and the minimum
+        sum_diffs = sum([num - min_num for num in nums])
+        
+        # Return the sum of differences
+        return sum_diffs
