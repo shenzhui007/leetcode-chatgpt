@@ -1,0 +1,22 @@
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def pathSum(self, root: Optional[TreeNode], targetSum: int) -> int:
+        
+        def dfs(node, curr_sum, target):
+            if not node:
+                return 0
+            curr_sum += node.val
+            count = counter[curr_sum - target] # check if we have a previous prefix sum that is equal to curr_sum - target
+            counter[curr_sum] += 1 # add curr_sum to the counter
+            count += dfs(node.left, curr_sum, target) + dfs(node.right, curr_sum, target) # recursive calls on the left and right subtrees
+            counter[curr_sum] -= 1 # remove curr_sum from the counter before returning
+            return count
+        
+        counter = defaultdict(int) # initialize a defaultdict to store the frequency of prefix sums
+        counter[0] = 1 # set the initial count to 1 for prefix sum of 0 (needed to cover paths starting from root)
+        return dfs(root, 0, targetSum) # call the helper function to start the search from the root node
