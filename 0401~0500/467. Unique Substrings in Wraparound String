@@ -1,0 +1,21 @@
+class Solution:
+    def findSubstringInWraproundString(self, s: str) -> int:
+        # Initializing a count array to store the count of substrings ending with each letter
+        # The index of the count array represents the alphabet value of the letter (a=0, b=1, c=2, and so on)
+        count = [0] * 26 
+        
+        # Initializing the current length of the longest substring ending at each letter to 0
+        cur_len = 0 
+        
+        for i in range(len(s)):
+            # If the current character is one more than the previous character or is the first character, increment cur_len
+            if i == 0 or (ord(s[i]) - ord(s[i-1]) == 1 or ord(s[i-1]) - ord(s[i]) == 25):
+                cur_len += 1
+            # Otherwise, set cur_len to 1
+            else:
+                cur_len = 1
+            # Update the count of substrings ending with the current character to be at least cur_len
+            count[ord(s[i]) - ord('a')] = max(count[ord(s[i]) - ord('a')], cur_len)
+        
+        # Return the sum of the count array as it represents the total number of unique non-empty substrings of s present in base
+        return sum(count)
