@@ -1,0 +1,32 @@
+"""
+# Definition for a QuadTree node.
+class Node:
+    def __init__(self, val, isLeaf, topLeft, topRight, bottomLeft, bottomRight):
+        self.val = val
+        self.isLeaf = isLeaf
+        self.topLeft = topLeft
+        self.topRight = topRight
+        self.bottomLeft = bottomLeft
+        self.bottomRight = bottomRight
+"""
+
+class Solution:
+    def construct(self, grid: List[List[int]]) -> 'Node':
+        n = len(grid)
+        
+        # Base case: if the grid has only one element, create a leaf node
+        if n == 1:
+            return Node(grid[0][0], True, None, None, None, None)
+        
+        # Check if all elements in the grid are the same, if so, create a leaf node
+        same = all(grid[i][j] == grid[0][0] for i in range(n) for j in range(n))
+        if same:
+            return Node(grid[0][0], True, None, None, None, None)
+        
+        # Otherwise, divide the grid into four quadrants and recursively construct the quad-tree
+        mid = n // 2
+        topLeft = self.construct([row[:mid] for row in grid[:mid]])
+        topRight = self.construct([row[mid:] for row in grid[:mid]])
+        bottomLeft = self.construct([row[:mid] for row in grid[mid:]])
+        bottomRight = self.construct([row[mid:] for row in grid[mid:]])
+        return Node(None, False, topLeft, topRight, bottomLeft, bottomRight)
