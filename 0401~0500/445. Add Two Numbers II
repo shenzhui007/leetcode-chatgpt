@@ -1,0 +1,52 @@
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def addTwoNumbers(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:
+        # First, reverse both linked lists
+        l1 = self.reverseList(l1)
+        l2 = self.reverseList(l2)
+        
+        # Initialize variables
+        carry = 0
+        result = ListNode(0)
+        curr = result
+        
+        # Traverse both linked lists until they are both empty
+        while l1 is not None or l2 is not None:
+            # Get the values of the current nodes, or 0 if one of the lists is empty
+            val1 = l1.val if l1 is not None else 0
+            val2 = l2.val if l2 is not None else 0
+            
+            # Add the values and the carry from the previous digit
+            total = val1 + val2 + carry
+            carry = total // 10
+            
+            # Create a new node with the ones digit of the total
+            curr.next = ListNode(total % 10)
+            curr = curr.next
+            
+            # Move to the next nodes in both lists, if they exist
+            if l1 is not None:
+                l1 = l1.next
+            if l2 is not None:
+                l2 = l2.next
+        
+        # If there is still a carry after traversing both lists, create a new node with the carry
+        if carry > 0:
+            curr.next = ListNode(carry)
+        
+        # Reverse the result linked list and return it
+        return self.reverseList(result.next)
+    
+    def reverseList(self, head: ListNode) -> ListNode:
+        prev = None
+        curr = head
+        while curr is not None:
+            next_node = curr.next
+            curr.next = prev
+            prev = curr
+            curr = next_node
+        return prev
