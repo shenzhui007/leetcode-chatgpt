@@ -1,0 +1,14 @@
+class Solution:
+    def frequencySort(self, s: str) -> str:
+        # Count the frequency of each character in the string
+        freq_map = Counter(s)
+
+        # Sort the characters based on their frequency in decreasing order
+        sorted_chars = sorted(freq_map.keys(), key=lambda x: freq_map[x], reverse=True)
+
+        # Construct the sorted string
+        sorted_str = ''
+        for char in sorted_chars:
+            sorted_str += char * freq_map[char]
+
+        return sorted_str
