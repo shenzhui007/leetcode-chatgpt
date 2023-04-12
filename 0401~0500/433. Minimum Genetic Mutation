@@ -1,0 +1,22 @@
+class Solution:
+    def minMutation(self, startGene: str, endGene: str, bank: List[str]) -> int:
+        if endGene not in bank:
+            return -1
+        
+        queue = [(startGene, 0)]
+        visited = set([startGene])
+        
+        while queue:
+            currGene, numMutations = queue.pop(0)
+            if currGene == endGene:
+                return numMutations
+            
+            for i in range(len(currGene)):
+                for char in ['A', 'C', 'G', 'T']:
+                    if currGene[i] != char:
+                        newGene = currGene[:i] + char + currGene[i+1:]
+                        if newGene in bank and newGene not in visited:
+                            visited.add(newGene)
+                            queue.append((newGene, numMutations+1))
+        
+        return -1
