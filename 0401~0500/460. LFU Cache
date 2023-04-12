@@ -1,0 +1,46 @@
+class LFUCache:
+
+    def __init__(self, capacity: int):
+        self.capacity = capacity
+        self.cache = {}  # {key: [value, freq, timestamp]}
+        self.freq_counts = defaultdict(list)  # {freq: [key1, key2, ...]}
+        self.min_freq = 0
+        self.timestamp = 0
+
+    def get(self, key: int) -> int:
+        if key not in self.cache:
+            return -1
+        value, freq, _ = self.cache[key]
+        self.cache[key][1] += 1  # increment frequency
+        self.freq_counts[freq].remove(key)
+        if not self.freq_counts[freq] and freq == self.min_freq:
+            self.min_freq += 1  # update min_freq
+        self.freq_counts[freq+1].append(key)
+        self.timestamp += 1  # update timestamp
+        return value
+
+    def put(self, key: int, value: int) -> None:
+        if self.capacity == 0:
+            return
+        if key in self.cache:
+            _, freq, _ = self.cache[key]
+            self.cache[key] = [value, freq+1, self.timestamp+1]
+            self.freq_counts[freq].remove(key)
+            if not self.freq_counts[freq] and freq == self.min_freq:
+                self.min_freq += 1
+            self.freq_counts[freq+1].append(key)
+        else:
+            if len(self.cache) == self.capacity:
+                evict_key = self.freq_counts[self.min_freq].pop(0)
+                del self.cache[evict_key]
+            self.cache[key] = [value, 1, self.timestamp+1]
+            self.freq_counts[1].append(key)
+            self.min_freq = 1
+        self.timestamp += 1
+        
+
+
+# Your LFUCache object will be instantiated and called as such:
+# obj = LFUCache(capacity)
+# param_1 = obj.get(key)
+# obj.put(key,value)
