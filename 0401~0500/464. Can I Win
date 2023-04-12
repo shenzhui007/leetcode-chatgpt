@@ -1,0 +1,29 @@
+class Solution:
+    def canIWin(self, maxChoosableInteger: int, desiredTotal: int) -> bool:
+        # Handle the base case where the sum of all integers is less than the desired total
+        if (maxChoosableInteger * (maxChoosableInteger + 1) // 2) < desiredTotal:
+            return False
+        # Handle the special case where the desired total is 0
+        if desiredTotal == 0:
+            return True
+        # Initialize a dictionary to keep track of state and results
+        state_dict = {}
+        # Define a recursive helper function to simulate gameplay and return the result
+        def can_win(state, total):
+            # Check if the current state has already been encountered and return the result
+            if state in state_dict:
+                return state_dict[state]
+            # Iterate over all possible moves and recursively check if the opponent can be forced to lose
+            for i in range(maxChoosableInteger, 0, -1):
+                if not state & (1 << i):
+                    new_state = state | (1 << i)
+                    new_total = total + i
+                    # If the current player can make a move that leads to a winning state, return True
+                    if new_total >= desiredTotal or not can_win(new_state, new_total):
+                        state_dict[state] = True
+                        return True
+            # If no winning move is found, return False
+            state_dict[state] = False
+            return False
+        # Call the helper function to start the game
+        return can_win(0, 0)
