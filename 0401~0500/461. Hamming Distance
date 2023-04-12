@@ -1,0 +1,18 @@
+class Solution:
+    def hammingDistance(self, x: int, y: int) -> int:
+        # Convert the integers to binary representation
+        bin_x = bin(x)[2:]
+        bin_y = bin(y)[2:]
+
+        # Add leading zeros to make the binary strings of equal length
+        max_len = max(len(bin_x), len(bin_y))
+        bin_x = bin_x.zfill(max_len)
+        bin_y = bin_y.zfill(max_len)
+
+        # Calculate the Hamming distance by comparing corresponding bits
+        hamming_distance = 0
+        for i in range(max_len):
+            if bin_x[i] != bin_y[i]:
+                hamming_distance += 1
+
+        return hamming_distance
