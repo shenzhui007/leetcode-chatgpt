@@ -1,0 +1,35 @@
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def findDuplicateSubtrees(self, root: Optional[TreeNode]) -> List[Optional[TreeNode]]:
+        # A dictionary to store the subtrees and their frequency
+        subtrees = {}
+        # A list to store the duplicate subtrees
+        duplicates = []
+        
+        def traverse(node):
+            if not node:
+                return "#"
+            
+            # Recursively get the left and right subtrees of the current node
+            left = traverse(node.left)
+            right = traverse(node.right)
+            
+            # The current subtree is represented by the combination of the node's value, left subtree, and right subtree
+            subtree = f"{node.val},{left},{right}"
+            
+            # Increment the frequency of the current subtree in the dictionary
+            subtrees[subtree] = subtrees.get(subtree, 0) + 1
+            
+            # If the frequency of the current subtree is 2, add the node to the list of duplicates
+            if subtrees[subtree] == 2:
+                duplicates.append(node)
+            
+            return subtree
+        
+        traverse(root)
+        return duplicates
