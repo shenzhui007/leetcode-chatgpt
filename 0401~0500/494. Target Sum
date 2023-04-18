@@ -1,0 +1,17 @@
+class Solution:
+    def findTargetSumWays(self, nums: List[int], target: int) -> int:
+        memo = {}
+        def dfs(i, curr_sum):
+            if (i, curr_sum) in memo:
+                return memo[(i, curr_sum)]
+            if i == len(nums):
+                if curr_sum == target:
+                    return 1
+                else:
+                    return 0
+            add = dfs(i+1, curr_sum+nums[i])
+            subtract = dfs(i+1, curr_sum-nums[i])
+            memo[(i, curr_sum)] = add + subtract
+            return memo[(i, curr_sum)]
+        
+        return dfs(0, 0)
