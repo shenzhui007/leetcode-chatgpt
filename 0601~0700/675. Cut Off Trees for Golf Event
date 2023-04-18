@@ -1,0 +1,57 @@
+class Solution:
+    def cutOffTree(self, forest: List[List[int]]) -> int:
+        # Create a list of all the trees and their locations
+        trees = []
+        for i in range(len(forest)):
+            for j in range(len(forest[0])):
+                if forest[i][j] > 1:
+                    trees.append((forest[i][j], i, j))
+        
+        # Sort the trees by height
+        trees.sort()
+        
+        # Starting position is (0, 0)
+        x, y = 0, 0
+        
+        total_steps = 0
+        
+        # For each tree, calculate the steps needed to reach it from the previous tree
+        for tree in trees:
+            steps = self.bfs(forest, x, y, tree[1], tree[2])
+            
+            # If no path to the tree, return -1
+            if steps == -1:
+                return -1
+            
+            # Add the steps to the total and update the current position
+            total_steps += steps
+            x, y = tree[1], tree[2]
+            
+            # Cut off the tree by setting its value to 1
+            forest[x][y] = 1
+            
+        return total_steps
+    
+    # Helper function to perform BFS to find the shortest path from (x1, y1) to (x2, y2)
+    def bfs(self, forest, x1, y1, x2, y2):
+        queue = [(x1, y1, 0)]
+        visited = set((x1, y1))
+        
+        while queue:
+            x, y, steps = queue.pop(0)
+            
+            # If we have reached the destination, return the number of steps
+            if x == x2 and y == y2:
+                return steps
+            
+            # Check all the neighbors of the current cell
+            for dx, dy in [(1, 0), (-1, 0), (0, 1), (0, -1)]:
+                new_x, new_y = x + dx, y + dy
+                
+                # Check if the new cell is within the bounds of the forest and can be walked through
+                if 0 <= new_x < len(forest) and 0 <= new_y < len(forest[0]) and (new_x, new_y) not in visited and forest[new_x][new_y] != 0:
+                    queue.append((new_x, new_y, steps + 1))
+                    visited.add((new_x, new_y))
+        
+        # If we couldn't reach the destination, return -1
+        return -1
