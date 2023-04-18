@@ -1,0 +1,23 @@
+class MagicDictionary:
+
+    def __init__(self):
+        self.words = set()
+
+    def buildDict(self, dictionary: List[str]) -> None:
+        self.words = set(dictionary)
+
+    def search(self, searchWord: str) -> bool:
+        for i in range(len(searchWord)):
+            for c in 'abcdefghijklmnopqrstuvwxyz':
+                if searchWord[i] == c:
+                    continue
+                new_word = searchWord[:i] + c + searchWord[i+1:]
+                if new_word in self.words:
+                    return True
+        return False
+
+
+# Your MagicDictionary object will be instantiated and called as such:
+# obj = MagicDictionary()
+# obj.buildDict(dictionary)
+# param_2 = obj.search(searchWord)
