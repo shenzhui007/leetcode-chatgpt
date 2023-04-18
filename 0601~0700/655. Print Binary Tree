@@ -1,0 +1,37 @@
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def printTree(self, root: Optional[TreeNode]) -> List[List[str]]:
+        if not root:
+            return []
+        
+        height = self.getHeight(root)
+        width = int(pow(2, height) - 1)
+        res = [['' for _ in range(width)] for _ in range(height)]
+        queue = deque([(root, 0, 0, width - 1)])
+        
+        while queue:
+            node, level, left, right = queue.popleft()
+            mid = (left + right) // 2
+            res[level][mid] = str(node.val)
+            
+            if node.left:
+                queue.append((node.left, level + 1, left, mid - 1))
+                
+            if node.right:
+                queue.append((node.right, level + 1, mid + 1, right))
+                
+        return res
+        
+    def getHeight(self, root):
+        if not root:
+            return 0
+        
+        left = self.getHeight(root.left)
+        right = self.getHeight(root.right)
+        
+        return max(left, right) + 1
