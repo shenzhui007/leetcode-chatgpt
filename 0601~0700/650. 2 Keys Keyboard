@@ -1,0 +1,13 @@
+class Solution:
+    def minSteps(self, n: int) -> int:
+        if n == 1:
+            return 0
+        factors = []
+        i = 2
+        while i <= n:
+            if n % i == 0:
+                factors.append(i)
+                n //= i
+            else:
+                i += 1
+        return sum(factors)
