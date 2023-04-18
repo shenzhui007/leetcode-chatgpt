@@ -1,0 +1,15 @@
+class Solution:
+    def constructRectangle(self, area: int) -> List[int]:
+        import math
+        # starting with the square root of the area
+        sqrt_area = int(math.sqrt(area))
+        
+        # if the square root is a divisor of the area, then return [sqrt_area, sqrt_area]
+        if area % sqrt_area == 0:
+            return [int(area/sqrt_area), sqrt_area]
+        
+        # Otherwise, starting from the integer next to the square root
+        # and checking downwards until we find a divisor of the area
+        for i in range(sqrt_area+1, 0, -1):
+            if area % i == 0:
+                return [int(area/i), i]
