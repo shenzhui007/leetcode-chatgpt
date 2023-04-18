@@ -1,0 +1,12 @@
+class Solution:
+    def optimalDivision(self, nums: List[int]) -> str:
+        n = len(nums)
+        if n == 1:
+            return str(nums[0])
+        elif n == 2:
+            return str(nums[0]) + "/" + str(nums[1])
+        else:
+            # If we have more than two numbers, we can always put brackets around all
+            # but the first number to get the maximum value
+            nums_str = [str(num) for num in nums]
+            return nums_str[0] + "/(" + "/".join(nums_str[1:]) + ")"
