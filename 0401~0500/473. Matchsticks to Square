@@ -1,0 +1,38 @@
+class Solution:
+    def makesquare(self, matchsticks: List[int]) -> bool:
+        """
+        :type matchsticks: List[int]
+        :rtype: bool
+        """
+        # Calculate the perimeter of the square
+        perimeter = sum(matchsticks)
+        
+        # If the perimeter is not divisible by 4, return False
+        if perimeter % 4 != 0:
+            return False
+        
+        # Sort the matchsticks in decreasing order to reduce the search space
+        matchsticks.sort(reverse=True)
+        
+        # Create an array to store the length of each side of the square
+        sides = [0] * 4
+        
+        # Recursive function to find the sides of the square
+        def dfs(index):
+            # Base case: if all matchsticks have been used, return True
+            if index == len(matchsticks):
+                return True
+            
+            # Try adding the current matchstick to each side of the square
+            for i in range(4):
+                if sides[i] + matchsticks[index] <= perimeter // 4:
+                    sides[i] += matchsticks[index]
+                    if dfs(index + 1):
+                        return True
+                    sides[i] -= matchsticks[index]
+            
+            # If no side can fit the current matchstick, return False
+            return False
+        
+        # Call the recursive function and return the result
+        return dfs(0)
