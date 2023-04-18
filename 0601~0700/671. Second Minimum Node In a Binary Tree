@@ -1,0 +1,36 @@
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def findSecondMinimumValue(self, root: Optional[TreeNode]) -> int:
+        """
+        :type root: TreeNode
+        :rtype: int
+        """
+        if not root:
+            return -1
+        
+        # If root node doesn't have a left or right child, 
+        # there is no second minimum value in the tree.
+        if not root.left and not root.right:
+            return -1
+        
+        # Find the minimum value in the left and right sub-trees
+        left_min = root.left.val
+        right_min = root.right.val
+        if root.left.val == root.val:
+            left_min = self.findSecondMinimumValue(root.left)
+        if root.right.val == root.val:
+            right_min = self.findSecondMinimumValue(root.right)
+        
+        # If the left and right sub-trees have different minimum values,
+        # return the smaller one.
+        if left_min != -1 and right_min != -1:
+            return min(left_min, right_min)
+        elif left_min != -1:
+            return left_min
+        else:
+            return right_min
