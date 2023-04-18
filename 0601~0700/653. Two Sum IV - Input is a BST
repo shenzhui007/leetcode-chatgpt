@@ -1,0 +1,29 @@
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def findTarget(self, root: Optional[TreeNode], k: int) -> bool:
+        """
+        Given the root of a binary search tree and an integer k, return true if there exist two elements in the BST such 
+        that their sum is equal to k, or false otherwise.
+        """
+        # Create an empty set to store the visited nodes' values.
+        visited = set()
+
+        # Traverse the tree using Depth First Search (DFS) algorithm.
+        stack = [root]
+        while stack:
+            node = stack.pop()
+            if node:
+                # If k - node.val is in visited, then there exist two nodes whose sum is equal to k.
+                if k - node.val in visited:
+                    return True
+                visited.add(node.val)
+                stack.append(node.left)
+                stack.append(node.right)
+
+        # If no such pair of nodes exists, return False.
+        return False
