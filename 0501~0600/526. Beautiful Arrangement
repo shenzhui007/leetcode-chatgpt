@@ -1,0 +1,28 @@
+class Solution:
+    def countArrangement(self, n: int) -> int:
+        # create a list of integers from 1 to n
+        nums = [i for i in range(1, n+1)]
+        
+        # define a recursive helper function to generate permutations and count beautiful arrangements
+        def helper(index, nums):
+            # base case: all numbers have been used, so we have a valid beautiful arrangement
+            if index == len(nums):
+                return 1
+            
+            count = 0
+            for i in range(index, len(nums)):
+                # swap the current number with the number at the current index
+                nums[index], nums[i] = nums[i], nums[index]
+                
+                # check if the current number satisfies the beautiful arrangement condition
+                if nums[index] % (index+1) == 0 or (index+1) % nums[index] == 0:
+                    # recursively count beautiful arrangements using the remaining numbers
+                    count += helper(index+1, nums)
+                
+                # swap the numbers back to their original positions
+                nums[index], nums[i] = nums[i], nums[index]
+            
+            return count
+        
+        # call the helper function with the initial index and list of numbers
+        return helper(0, nums)
