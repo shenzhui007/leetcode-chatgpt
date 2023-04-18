@@ -1,0 +1,12 @@
+class Solution:
+    def findMinMoves(self, machines: List[int]) -> int:
+        total = sum(machines)
+        n = len(machines)
+        if total % n != 0:
+            return -1
+        target = total // n
+        moves, balance = 0, 0
+        for i in range(n):
+            balance += machines[i] - target
+            moves = max(moves, abs(balance), machines[i] - target)
+        return moves
