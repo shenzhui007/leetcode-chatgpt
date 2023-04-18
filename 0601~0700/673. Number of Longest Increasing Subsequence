@@ -1,0 +1,17 @@
+class Solution:
+    def findNumberOfLIS(self, nums: List[int]) -> int:
+        n = len(nums)
+        lengths = [0] * n    # lengths[i] stores the length of the LIS ending at nums[i]
+        counts = [1] * n     # counts[i] stores the number of LIS ending at nums[i]
+
+        for j in range(n):
+            for i in range(j):
+                if nums[i] < nums[j]:
+                    if lengths[i] >= lengths[j]:
+                        lengths[j] = lengths[i] + 1
+                        counts[j] = counts[i]
+                    elif lengths[i] + 1 == lengths[j]:
+                        counts[j] += counts[i]
+
+        longest = max(lengths)
+        return sum(counts[i] for i in range(n) if lengths[i] == longest)
