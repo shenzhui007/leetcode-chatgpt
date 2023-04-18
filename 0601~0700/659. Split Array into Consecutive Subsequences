@@ -1,0 +1,28 @@
+class Solution:
+    def isPossible(self, nums: List[int]) -> bool:
+        count_map = defaultdict(int)
+        tail_map = defaultdict(int)
+        
+        # count the frequency of each number in nums
+        for num in nums:
+            count_map[num] += 1
+        
+        for num in nums:
+            # if the count of num is 0, it means that this number has already been used in a subsequence
+            if count_map[num] == 0:
+                continue
+            # if there is a subsequence ending at num-1, we can add num to that subsequence
+            elif tail_map[num-1] > 0:
+                tail_map[num-1] -= 1
+                tail_map[num] += 1
+            # if there is no subsequence ending at num-1, we need to create a new subsequence starting at num
+            elif count_map[num+1] > 0 and count_map[num+2] > 0:
+                count_map[num+1] -= 1
+                count_map[num+2] -= 1
+                tail_map[num+2] += 1
+            # if we cannot add num to an existing subsequence or create a new subsequence starting at num, 
+            # it means that we cannot split nums into the required subsequences
+            else:
+                return False
+            count_map[num] -= 1
+        return True
