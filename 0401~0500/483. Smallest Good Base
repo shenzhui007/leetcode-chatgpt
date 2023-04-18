@@ -1,0 +1,14 @@
+class Solution:
+    def smallestGoodBase(self, n: str) -> str:
+        n = int(n)
+        # We start searching for the biggest possible value of k (i.e., the smallest possible value of b)
+        # since k must be as small as possible to satisfy the condition that all digits in n base k are 1's.
+        for m in range(int(math.log(n, 2)), 1, -1):
+            k = int(n**(1/m))
+            if k < 2:
+                continue
+            # We use the geometric series formula to check if all digits in n base k are 1's.
+            if (k**(m+1) - 1) // (k - 1) == n:
+                return str(k)
+        # If no good base is found, n itself is a good base (with one digit).
+        return str(n-1)
