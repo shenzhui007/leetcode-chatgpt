@@ -1,0 +1,10 @@
+class Solution:
+    def distributeCandies(self, candyType: List[int]) -> int:
+        # Find the total number of unique candy types
+        unique_candies = len(set(candyType))
+        
+        # Determine the maximum number of candies Alice can eat
+        max_candies = len(candyType) // 2
+        
+        # Return the minimum of the number of unique candy types and the maximum number of candies Alice can eat
+        return min(unique_candies, max_candies)
