@@ -1,0 +1,13 @@
+class Solution:
+    def findClosestElements(self, arr: List[int], k: int, x: int) -> List[int]:
+        # Binary search to find the index of the element closest to x
+        left, right = 0, len(arr) - k
+        while left < right:
+            mid = left + (right - left) // 2
+            if x - arr[mid] > arr[mid+k] - x:
+                left = mid + 1
+            else:
+                right = mid
+        
+        # Return the k elements starting from the index found
+        return arr[left:left+k]
