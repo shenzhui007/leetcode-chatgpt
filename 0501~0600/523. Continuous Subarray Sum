@@ -1,0 +1,23 @@
+class Solution:
+    def checkSubarraySum(self, nums: List[int], k: int) -> bool:
+        n = len(nums)
+        if n < 2:
+            return False
+        
+        # create a dictionary to store the prefix sum mod k and its index
+        # initialize with 0 mod k and index -1 to handle edge cases
+        prefix_sum = {0: -1}
+        cur_sum = 0
+        
+        for i in range(n):
+            cur_sum += nums[i]
+            if k != 0:
+                cur_sum %= k
+            
+            if cur_sum in prefix_sum:
+                if i - prefix_sum[cur_sum] > 1:
+                    return True
+            else:
+                prefix_sum[cur_sum] = i
+        
+        return False
