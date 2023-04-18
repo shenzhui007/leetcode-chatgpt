@@ -1,0 +1,41 @@
+class Solution:
+    def subarraySum(self, nums: List[int], k: int) -> int:
+        # Initialize the dictionary with the key-value pair (0, 1).
+        # This is because if a subarray of sum k starts at index i, then the sum of all elements
+        # from the beginning of the array to index i-1 will be (sum_i - k). Hence, if (sum_i - k) has
+        # already occurred before, it means that there exists a subarray whose sum is k, and the count
+        # of such subarrays can be updated by the value of the dictionary at key (sum_i - k).
+        # If (sum_i - k) has not occurred before, then its count is 0, and the value of the dictionary
+        # at key (sum_i - k) is initialized to 0.
+        # The reason we initialize the dictionary with the key-value pair (0, 1) is that there can be a
+        # subarray whose sum is k and whose starting index is 0. In this case, the sum from the beginning
+        # of the array to index -1 is 0.
+        d = defaultdict(int)
+        d[0] = 1
+        
+        # Initialize the variables sum_i and count.
+        # sum_i will store the sum of all elements up to the current index i.
+        # count will store the total count of subarrays whose sum is k.
+        sum_i, count = 0, 0
+        
+        # Loop through the array and update sum_i and count at each index.
+        for i in range(len(nums)):
+            
+            # Update sum_i by adding the current element to it.
+            sum_i += nums[i]
+            
+            # Check if (sum_i - k) is in the dictionary.
+            # If it is, then there exists a subarray whose sum is k and whose ending index is i.
+            # The count of such subarrays is the value of the dictionary at key (sum_i - k).
+            if sum_i - k in d:
+                count += d[sum_i - k]
+            
+            # Update the value of the dictionary at key sum_i by incrementing it by 1.
+            # This is because if a subarray of sum k ends at index i, then the sum of all elements
+            # from index i+1 to the end of the array will be (sum - sum_i). Hence, if (sum - sum_i)
+            # occurs again in the array, it means that there exists a subarray whose sum is k, and
+            # the count of such subarrays can be updated by the value of the dictionary at key sum_i.
+            d[sum_i] += 1
+        
+        # Return the total count of subarrays whose sum is k.
+        return count
