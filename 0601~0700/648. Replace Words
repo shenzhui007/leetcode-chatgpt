@@ -1,0 +1,20 @@
+class Solution:
+    def replaceWords(self, dictionary: List[str], sentence: str) -> str:
+        # split the sentence into words
+        words = sentence.split()
+        
+        # sort the dictionary in ascending order of word length
+        dictionary = sorted(dictionary, key=len)
+        
+        # loop through each word in the sentence
+        for i in range(len(words)):
+            # loop through each root in the dictionary
+            for root in dictionary:
+                # if the root is a prefix of the word, replace the word with the root
+                if words[i].startswith(root):
+                    words[i] = root
+                    # break out of the loop to use the shortest root possible
+                    break
+        
+        # join the words back into a sentence
+        return ' '.join(words)
