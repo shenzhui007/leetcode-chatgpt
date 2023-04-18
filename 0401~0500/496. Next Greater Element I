@@ -1,0 +1,15 @@
+class Solution:
+    def nextGreaterElement(self, nums1: List[int], nums2: List[int]) -> List[int]:
+        stack = []
+        greater_map = {}
+        for num in nums2:
+            while stack and stack[-1] < num:
+                greater_map[stack.pop()] = num
+            stack.append(num)
+        result = []
+        for num in nums1:
+            if num in greater_map:
+                result.append(greater_map[num])
+            else:
+                result.append(-1)
+        return result
