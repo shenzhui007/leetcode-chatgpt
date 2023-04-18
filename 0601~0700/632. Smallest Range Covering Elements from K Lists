@@ -1,0 +1,20 @@
+class Solution:
+    def smallestRange(self, nums: List[List[int]]) -> List[int]:
+        heap = []
+        max_num = float('-inf')
+        for i, nums_i in enumerate(nums):
+            heappush(heap, (nums_i[0], i, 0))
+            max_num = max(max_num, nums_i[0])
+        
+        result_range = [float('-inf'), float('inf')]
+        while heap:
+            min_num, i, j = heappop(heap)
+            if max_num - min_num < result_range[1] - result_range[0]:
+                result_range = [min_num, max_num]
+            if j == len(nums[i]) - 1:
+                return result_range
+            next_num = nums[i][j+1]
+            max_num = max(max_num, next_num)
+            heappush(heap, (next_num, i, j+1))
+        
+        return result_range
