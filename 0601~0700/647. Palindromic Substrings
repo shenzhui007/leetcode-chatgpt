@@ -1,0 +1,26 @@
+class Solution:
+    def countSubstrings(self, s: str) -> int:
+        n = len(s)
+        count = 0
+        dp = [[False] * n for _ in range(n)]
+        
+        # All individual characters are palindromic
+        for i in range(n):
+            dp[i][i] = True
+            count += 1
+        
+        # Check for palindromic substrings of length 2
+        for i in range(n-1):
+            if s[i] == s[i+1]:
+                dp[i][i+1] = True
+                count += 1
+        
+        # Check for palindromic substrings of length greater than 2
+        for k in range(2, n):
+            for i in range(n-k):
+                j = i + k
+                if s[i] == s[j] and dp[i+1][j-1]:
+                    dp[i][j] = True
+                    count += 1
+        
+        return count
