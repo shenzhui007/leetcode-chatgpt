@@ -1,0 +1,20 @@
+class Solution:
+    def arrayNesting(self, nums: List[int]) -> int:
+        n = len(nums)
+        visited = [False] * n
+        max_length = 0
+        
+        for i in range(n):
+            if not visited[i]:
+                start = nums[i]
+                length = 1
+                visited[i] = True
+                
+                while start != i:
+                    start = nums[start]
+                    length += 1
+                    visited[start] = True
+                
+                max_length = max(max_length, length)
+        
+        return max_length
