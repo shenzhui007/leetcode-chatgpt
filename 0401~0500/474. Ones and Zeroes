@@ -1,0 +1,18 @@
+class Solution:
+    def findMaxForm(self, strs: List[str], m: int, n: int) -> int:
+        # Initialize a 2D table of size (m+1)x(n+1) with zeros
+        dp = [[0] * (n+1) for _ in range(m+1)]
+
+        # Iterate through each string in the input list
+        for s in strs:
+            # Count the number of 0s and 1s in the current string
+            num_zeros = s.count('0')
+            num_ones = s.count('1')
+
+            # Update the dp table for all values of i and j
+            for i in range(m, num_zeros-1, -1):
+                for j in range(n, num_ones-1, -1):
+                    dp[i][j] = max(dp[i][j], dp[i-num_zeros][j-num_ones] + 1)
+
+        # Return the maximum value in the dp table
+        return dp[m][n]
