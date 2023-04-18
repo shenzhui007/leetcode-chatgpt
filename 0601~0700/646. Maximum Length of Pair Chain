@@ -1,0 +1,18 @@
+class Solution:
+    def findLongestChain(self, pairs: List[List[int]]) -> int:
+        # sort the pairs in increasing order of the second element of each pair
+        pairs.sort(key=lambda x: x[1])
+        
+        # initialize variables to keep track of the current chain length and the end of the previous pair
+        chain_length = 0
+        prev_end = float('-inf')
+        
+        # iterate over the sorted pairs
+        for pair in pairs:
+            # if the first element of the current pair is greater than the end of the previous pair, 
+            # increment the chain length and update the end of the previous pair
+            if pair[0] > prev_end:
+                chain_length += 1
+                prev_end = pair[1]
+        
+        return chain_length
