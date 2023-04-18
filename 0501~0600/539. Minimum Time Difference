@@ -1,0 +1,9 @@
+class Solution:
+    def findMinDifference(self, timePoints: List[str]) -> int:
+        # Convert each time point to minutes
+        minutes = [int(time[:2]) * 60 + int(time[3:]) for time in timePoints]
+        # Sort the minutes in ascending order
+        minutes.sort()
+        # Compute the minimum difference between consecutive minutes
+        min_diff = min((y - x) % (24 * 60) for x, y in zip(minutes, minutes[1:] + minutes[:1]))
+        return min_diff
