@@ -1,0 +1,15 @@
+class Solution:
+    def findComplement(self, num: int) -> int:
+        # Convert the integer to its binary representation
+        binary_num = bin(num)[2:]
+
+        # Create a string of ones with the same length as the binary representation
+        ones_str = "1" * len(binary_num)
+
+        # Convert the ones string to an integer
+        ones_num = int(ones_str, 2)
+
+        # XOR the binary number with the ones number to get the complement
+        complement = num ^ ones_num
+
+        return complement
