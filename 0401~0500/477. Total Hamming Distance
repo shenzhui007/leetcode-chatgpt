@@ -1,0 +1,20 @@
+class Solution:
+    def totalHammingDistance(self, nums: List[int]) -> int:
+        n = len(nums)
+        total_hamming_distance = 0
+        
+        # Iterate through each bit position in an integer
+        for i in range(32):
+            bit_count = 0
+            
+            # Count the number of integers in the array with that bit set
+            for j in range(n):
+                bit_count += (nums[j] >> i) & 1
+            
+            # Calculate the Hamming distance for this bit position
+            hamming_distance = bit_count * (n - bit_count)
+            
+            # Add the Hamming distance to the total
+            total_hamming_distance += hamming_distance
+        
+        return total_hamming_distance
