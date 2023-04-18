@@ -1,0 +1,25 @@
+class Solution:
+    def findRotateSteps(self, ring: str, key: str) -> int:
+        memo = {}
+        
+        def dfs(ring_idx, key_idx):
+            if (ring_idx, key_idx) in memo:
+                return memo[(ring_idx, key_idx)]
+            
+            if key_idx == len(key):
+                memo[(ring_idx, key_idx)] = 0
+                return 0
+            
+            min_steps = float('inf')
+            for i in range(len(ring)):
+                if ring[i] == key[key_idx]:
+                    diff = abs(i - ring_idx)
+                    steps = min(diff, len(ring) - diff)  # choose the shorter path
+                    next_steps = dfs(i, key_idx+1)
+                    total_steps = steps + next_steps + 1  # plus 1 for pressing the center button
+                    min_steps = min(min_steps, total_steps)
+            
+            memo[(ring_idx, key_idx)] = min_steps
+            return min_steps
+        
+        return dfs(0, 0)
