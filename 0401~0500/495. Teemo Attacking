@@ -1,0 +1,22 @@
+class Solution:
+    def findPoisonedDuration(self, timeSeries: List[int], duration: int) -> int:
+        n = len(timeSeries)
+        if n == 0:
+            return 0
+        
+        total_poisoned = 0
+        last_attack = timeSeries[0]
+        for i in range(1, n):
+            current_attack = timeSeries[i]
+            if current_attack <= last_attack + duration - 1:
+                # The current attack overlaps with the previous poison effect
+                total_poisoned += current_attack - last_attack
+            else:
+                # The current attack doesn't overlap, so we add a full duration
+                total_poisoned += duration
+            last_attack = current_attack
+        
+        # Add the duration of the last poison effect
+        total_poisoned += duration
+        
+        return total_poisoned
