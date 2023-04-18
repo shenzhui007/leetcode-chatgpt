@@ -1,0 +1,32 @@
+"""
+# Definition for a Node.
+class Node:
+    def __init__(self, val=None, children=None):
+        self.val = val
+        self.children = children
+"""
+
+class Solution:
+    def postorder(self, root: 'Node') -> List[int]:
+        # check if the root is empty
+        if not root:
+            return []
+        
+        # create an empty stack to store nodes
+        stack = [root]
+        # create an empty list to store the result
+        result = []
+        
+        # loop until the stack is empty
+        while stack:
+            # pop the top node from the stack
+            node = stack.pop()
+            
+            # append the value of the current node to the result list
+            result.append(node.val)
+            
+            # push all the children of the current node to the stack
+            stack.extend(node.children)
+        
+        # return the result list in reverse order
+        return result[::-1]
