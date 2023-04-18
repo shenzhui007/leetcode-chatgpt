@@ -1,0 +1,35 @@
+class Solution:
+    def shoppingOffers(self, price: List[int], special: List[List[int]], needs: List[int]) -> int:
+        def buy_without_offer(needs):
+            # Calculate the price without any special offer
+            return sum(price[i] * needs[i] for i in range(len(price)))
+        
+        def apply_offer(offer, needs):
+            # Check if the offer can be applied on the current needs
+            for i in range(len(price)):
+                if offer[i] > needs[i]:
+                    return None
+            
+            # Apply the offer and return the remaining needs
+            return [needs[i] - offer[i] for i in range(len(price))]
+        
+        memo = {}
+        def dfs(needs):
+            # Check if we already have the result in the memo
+            key = tuple(needs)
+            if key in memo:
+                return memo[key]
+            
+            # Buy without offer as a base case
+            result = buy_without_offer(needs)
+            
+            # Apply each offer that can be applied
+            for offer in special:
+                new_needs = apply_offer(offer, needs)
+                if new_needs is not None:
+                    result = min(result, offer[-1] + dfs(new_needs))
+            
+            memo[key] = result
+            return result
+        
+        return dfs(needs)
