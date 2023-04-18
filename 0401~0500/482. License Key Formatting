@@ -1,0 +1,22 @@
+class Solution:
+    def licenseKeyFormatting(self, s: str, k: int) -> str:
+        # Remove existing dashes and convert all characters to uppercase
+        s = s.replace('-', '').upper()
+        
+        # Get the length of the original string and the length of the first group
+        n = len(s)
+        first_group_len = n % k
+        
+        # Create a list to hold the reformatted groups
+        groups = []
+        
+        # If the first group is shorter than k, add it to the list
+        if first_group_len != 0:
+            groups.append(s[:first_group_len])
+        
+        # Add the remaining groups of length k to the list
+        for i in range(first_group_len, n, k):
+            groups.append(s[i:i+k])
+        
+        # Join the groups with dashes and return the reformatted license key
+        return '-'.join(groups)
