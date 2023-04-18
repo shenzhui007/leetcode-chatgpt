@@ -1,0 +1,23 @@
+class Solution:
+    def findMaximizedCapital(self, k: int, w: int, profits: List[int], capital: List[int]) -> int:
+        n = len(profits)
+        projects = [(capital[i], profits[i]) for i in range(n)]
+        projects.sort() # sort by minimum capital required
+        
+        i = 0
+        max_heap = []
+        while k > 0:
+            # add all the projects whose minimum capital requirement is less than or equal to the current capital
+            while i < n and projects[i][0] <= w:
+                heapq.heappush(max_heap, -projects[i][1])
+                i += 1
+            
+            # if there are no more projects to add, break
+            if not max_heap:
+                break
+            
+            # pick the project with maximum profit and add its profit to the current capital
+            w += abs(heapq.heappop(max_heap))
+            k -= 1
+            
+        return w
