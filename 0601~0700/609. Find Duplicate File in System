@@ -1,0 +1,23 @@
+class Solution:
+    def findDuplicate(self, paths: List[str]) -> List[List[str]]:
+        # dictionary to store files grouped by their content
+        files_by_content = defaultdict(list)
+        
+        # iterate over each directory info string in the input list
+        for directory_info in paths:
+            # split the directory info into directory path and file info
+            directory_path, *file_info = directory_info.split()
+            
+            # iterate over each file info in the file info list
+            for info in file_info:
+                # split the file info into file name and content
+                file_name, content = info.split("(")
+                content = content[:-1] # remove closing parenthesis
+                
+                # add the file path to the list of files with the same content
+                files_by_content[content].append(directory_path + "/" + file_name)
+        
+        # filter out groups with only one file
+        duplicate_groups = [group for group in files_by_content.values() if len(group) > 1]
+        
+        return duplicate_groups
