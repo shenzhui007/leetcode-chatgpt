@@ -1,0 +1,17 @@
+class Solution:
+    def PredictTheWinner(self, nums: List[int]) -> bool:
+        def helper(left, right, memo):
+            if left == right:
+                return nums[left]
+            
+            if (left, right) in memo:
+                return memo[(left, right)]
+            
+            score_left = nums[left] - helper(left+1, right, memo)
+            score_right = nums[right] - helper(left, right-1, memo)
+            memo[(left, right)] = max(score_left, score_right)
+            
+            return memo[(left, right)]
+        
+        memo = {}
+        return helper(0, len(nums)-1, memo) >= 0
