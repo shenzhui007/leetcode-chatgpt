@@ -1,0 +1,31 @@
+class Solution:
+    def medianSlidingWindow(self, nums: List[int], k: int) -> List[float]:
+        if not nums or len(nums) < k:
+            return []
+        
+        medians = []
+        window = sorted(nums[:k])
+        mid = k // 2
+        
+        for i in range(k, len(nums)):
+            if k % 2 == 0:
+                median = (window[mid-1] + window[mid]) / 2.0
+            else:
+                median = window[mid]
+            
+            medians.append(median)
+            
+            # Remove the leftmost element from the window
+            index = bisect.bisect_left(window, nums[i-k])
+            window.pop(index)
+            
+            # Add the new element to the window
+            bisect.insort(window, nums[i])
+        
+        if k % 2 == 0:
+            median = (window[mid-1] + window[mid]) / 2.0
+        else:
+            median = window[mid]
+        medians.append(median)
+        
+        return medians
