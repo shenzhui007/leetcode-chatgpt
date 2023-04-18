@@ -1,0 +1,23 @@
+class Solution:
+    def findDiagonalOrder(self, mat: List[List[int]]) -> List[int]:
+        if not mat:
+            return []
+        
+        rows, cols = len(mat), len(mat[0])
+        result = []
+        
+        for i in range(rows + cols - 1):
+            temp = []
+            r = 0 if i < cols else i - cols + 1
+            c = i if i < cols else cols - 1
+            while r < rows and c > -1:
+                temp.append(mat[r][c])
+                r += 1
+                c -= 1
+            
+            if i % 2 == 0:
+                result += temp[::-1]
+            else:
+                result += temp
+        
+        return result
