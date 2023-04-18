@@ -1,0 +1,11 @@
+class Solution:
+    def complexNumberMultiply(self, num1: str, num2: str) -> str:
+        # Extract real and imaginary parts from num1
+        num1_real, num1_imaginary = map(int, num1[:-1].split('+'))
+        # Extract real and imaginary parts from num2
+        num2_real, num2_imaginary = map(int, num2[:-1].split('+'))
+        # Calculate the real and imaginary parts of the product
+        real_part = num1_real * num2_real - num1_imaginary * num2_imaginary
+        imaginary_part = num1_real * num2_imaginary + num1_imaginary * num2_real
+        # Return the complex number as a string
+        return str(real_part) + '+' + str(imaginary_part) + 'i'
