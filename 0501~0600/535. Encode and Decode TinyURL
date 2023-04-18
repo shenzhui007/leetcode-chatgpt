@@ -1,0 +1,32 @@
+class Codec:
+
+    alphabet = string.ascii_letters + '0123456789'
+
+    def __init__(self):
+        self.url_to_code = {}
+        self.code_to_url = {}
+
+    def encode(self, longUrl: str) -> str:
+        """Encodes a URL to a shortened URL."""
+        if longUrl in self.url_to_code:
+            return self.url_to_code[longUrl]
+
+        code = ''.join(random.choice(Codec.alphabet) for _ in range(6))
+        while code in self.code_to_url:
+            code = ''.join(random.choice(Codec.alphabet) for _ in range(6))
+
+        shortUrl = 'http://tinyurl.com/' + code
+        self.url_to_code[longUrl] = shortUrl
+        self.code_to_url[shortUrl] = longUrl
+
+        return shortUrl
+
+    def decode(self, shortUrl: str) -> str:
+        """Decodes a shortened URL to its original URL."""
+        return self.code_to_url[shortUrl]
+
+        
+
+# Your Codec object will be instantiated and called as such:
+# codec = Codec()
+# codec.decode(codec.encode(url))
