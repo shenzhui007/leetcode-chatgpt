@@ -1,0 +1,12 @@
+class Solution:
+    def maxCount(self, m: int, n: int, ops: List[List[int]]) -> int:
+        # Initialize the minimum row and column values to m and n
+        min_row, min_col = m, n
+        
+        # Loop through each operation and update the minimum row and column values
+        for op in ops:
+            min_row = min(min_row, op[0])
+            min_col = min(min_col, op[1])
+        
+        # Return the product of minimum row and column values
+        return min_row * min_col
