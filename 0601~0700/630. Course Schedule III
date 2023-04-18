@@ -1,0 +1,21 @@
+class Solution:
+    def scheduleCourse(self, courses: List[List[int]]) -> int:
+        # Sort the courses by their last day in ascending order
+        courses.sort(key=lambda x: x[1])
+        
+        # Initialize a priority queue to store the duration of the courses
+        pq = []
+        time = 0
+        
+        # Iterate through the courses
+        for duration, last_day in courses:
+            # If we can complete the course before its last day, add it to the priority queue
+            if time + duration <= last_day:
+                heapq.heappush(pq, -duration)
+                time += duration
+            # If we can't complete the course before its last day, replace the longest course with the current course
+            elif pq and -pq[0] > duration:
+                time += duration + heapq.heappop(pq)
+                heapq.heappush(pq, -duration)
+        
+        return len(pq)
