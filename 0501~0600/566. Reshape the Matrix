@@ -1,0 +1,20 @@
+class Solution:
+    def matrixReshape(self, mat: List[List[int]], r: int, c: int) -> List[List[int]]:
+        # Get the original dimensions of the matrix
+        m = len(mat)
+        n = len(mat[0])
+        
+        # Check if the reshape is possible
+        if m * n != r * c:
+            return mat
+        
+        # Flatten the original matrix into a 1D list
+        flattened_mat = [num for row in mat for num in row]
+        
+        # Create the new reshaped matrix
+        new_mat = [[0] * c for _ in range(r)]
+        for i in range(r):
+            for j in range(c):
+                new_mat[i][j] = flattened_mat[i * c + j]
+        
+        return new_mat
