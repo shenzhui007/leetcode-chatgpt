@@ -1,0 +1,29 @@
+class Solution:
+    def checkValidString(self, s: str) -> bool:
+        # Define two stacks to keep track of left and star characters
+        left_stack = []
+        star_stack = []
+        
+        # Traverse through the string
+        for i in range(len(s)):
+            if s[i] == '(':
+                left_stack.append(i)
+            elif s[i] == '*':
+                star_stack.append(i)
+            else:
+                if len(left_stack) > 0:
+                    left_stack.pop()
+                elif len(star_stack) > 0:
+                    star_stack.pop()
+                else:
+                    return False
+        
+        # Match remaining left and star characters
+        while len(left_stack) > 0 and len(star_stack) > 0:
+            if left_stack[-1] < star_stack[-1]:
+                left_stack.pop()
+                star_stack.pop()
+            else:
+                return False
+        
+        return len(left_stack) == 0
