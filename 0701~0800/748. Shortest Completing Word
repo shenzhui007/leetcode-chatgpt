@@ -1,0 +1,24 @@
+class Solution:
+    def shortestCompletingWord(self, licensePlate: str, words: List[str]) -> str:
+        # Remove non-alphabetic characters and convert to lowercase
+        licensePlate = re.sub('[^a-zA-Z]', '', licensePlate).lower()
+        
+        # Count the frequency of each character in licensePlate
+        target = collections.Counter(licensePlate)
+        
+        # Initialize the result with a word that has maximum length
+        result = None
+        min_length = float('inf')
+        
+        # Iterate through each word in words
+        for word in words:
+            word_count = collections.Counter(word)
+            
+            # Check if word contains all the characters in licensePlate
+            if all(word_count[char] >= count for char, count in target.items()):
+                # Check if current word is shorter than the current minimum length
+                if len(word) < min_length:
+                    result = word
+                    min_length = len(word)
+                    
+        return result
