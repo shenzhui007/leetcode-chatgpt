@@ -1,0 +1,20 @@
+class Solution:
+    def monotoneIncreasingDigits(self, n: int) -> int:
+        digits = list(str(n))
+        length = len(digits)
+        
+        # Find the first index where the digits are decreasing
+        pivot = length
+        for i in range(length - 1, 0, -1):
+            if digits[i - 1] > digits[i]:
+                pivot = i
+                digits[i - 1] = str(int(digits[i - 1]) - 1)
+        
+        # Set all digits after the pivot to '9'
+        for i in range(pivot, length):
+            digits[i] = '9'
+        
+        # Convert the list of digits back to an integer
+        result = int(''.join(digits))
+        
+        return result
