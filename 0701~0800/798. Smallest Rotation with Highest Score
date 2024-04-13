@@ -1,0 +1,23 @@
+class Solution:
+    def bestRotation(self, nums: List[int]) -> int:
+        n = len(nums)
+        bad = [0] * n
+        
+        # Calculate the "bad" values
+        for i, num in enumerate(nums):
+            left = (i - num + 1) % n
+            right = (i + 1) % n
+            bad[left] -= 1
+            bad[right] += 1
+        
+        # Find the best rotation index
+        best_score = -n
+        best_k = 0
+        score = 0
+        for i in range(n):
+            score += bad[i]
+            if score > best_score:
+                best_score = score
+                best_k = i
+        
+        return best_k
