@@ -1,0 +1,15 @@
+class Solution:
+    def escapeGhosts(self, ghosts: List[List[int]], target: List[int]) -> bool:
+        def manhattan_distance(point1: List[int], point2: List[int]) -> int:
+            return abs(point1[0] - point2[0]) + abs(point1[1] - point2[1])
+
+        # Calculate the distance from the starting point to the target
+        distance_to_target = manhattan_distance([0, 0], target)
+
+        # Check if any ghost can reach the target before the player
+        for ghost in ghosts:
+            distance_to_ghost = manhattan_distance(ghost, target)
+            if distance_to_ghost <= distance_to_target:
+                return False
+
+        return True
