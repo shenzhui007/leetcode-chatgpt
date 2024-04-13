@@ -1,0 +1,15 @@
+class Solution:
+    def findCheapestPrice(self, n: int, flights: List[List[int]], src: int, dst: int, k: int) -> int:
+        # Initialize the distance array
+        INF = float('inf')
+        dist = [INF] * n
+        dist[src] = 0
+
+        # Relax edges for k+1 times to consider k stops
+        for _ in range(k + 1):
+            prev = dist[:]
+            for u, v, w in flights:
+                if prev[u] + w < dist[v]:
+                    dist[v] = prev[u] + w
+
+        return dist[dst] if dist[dst] != INF else -1
