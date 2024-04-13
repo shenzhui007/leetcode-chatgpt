@@ -1,0 +1,32 @@
+class Solution:
+    def openLock(self, deadends: List[str], target: str) -> int:
+        deadends = set(deadends)
+        
+        if "0000" in deadends:
+            return -1
+        
+        if target == "0000":
+            return 0
+        
+        queue = deque([("0000", 0)])
+        visited = set("0000")
+        
+        while queue:
+            current, steps = queue.popleft()
+            
+            if current == target:
+                return steps
+            
+            if current in deadends:
+                continue
+            
+            for i in range(4):
+                for move in [-1, 1]:
+                    new_digit = str((int(current[i]) + move) % 10)
+                    new_lock = current[:i] + new_digit + current[i+1:]
+                    
+                    if new_lock not in visited and new_lock not in deadends:
+                        visited.add(new_lock)
+                        queue.append((new_lock, steps + 1))
+                        
+        return -1
