@@ -1,0 +1,20 @@
+class MyCalendarThree:
+
+    def __init__(self):
+        self.delta = collections.Counter()
+
+    def book(self, startTime: int, endTime: int) -> int:
+        self.delta[startTime] += 1
+        self.delta[endTime] -= 1
+
+        active = k = 0
+        for x in sorted(self.delta):
+            active += self.delta[x]
+            k = max(k, active)
+
+        return k
+
+
+# Your MyCalendarThree object will be instantiated and called as such:
+# obj = MyCalendarThree()
+# param_1 = obj.book(startTime,endTime)
