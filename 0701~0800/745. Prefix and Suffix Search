@@ -1,0 +1,52 @@
+from typing import List
+
+class TrieNode:
+    def __init__(self):
+        self.children = {}
+        self.weights = []
+
+class WordFilter:
+
+    def __init__(self, words: List[str]):
+        self.prefix_trie = TrieNode()
+        self.suffix_trie = TrieNode()
+        
+        for weight, word in enumerate(words):
+            self._insert(word, weight, self.prefix_trie)
+            self._insert(word[::-1], weight, self.suffix_trie)
+
+    def _insert(self, word, weight, trie):
+        node = trie
+        node.weights.append(weight)
+        for char in word:
+            if char not in node.children:
+                node.children[char] = TrieNode()
+            node = node.children[char]
+            node.weights.append(weight)
+
+    def _search(self, word, trie):
+        node = trie
+        for char in word:
+            if char not in node.children:
+                return []
+            node = node.children[char]
+        return node.weights
+
+    def f(self, pref: str, suff: str) -> int:
+        pref_weights = self._search(pref, self.prefix_trie)
+        suff_weights = self._search(suff[::-1], self.suffix_trie)
+        
+        i, j = len(pref_weights) - 1, len(suff_weights) - 1
+        while i >= 0 and j >= 0:
+            if pref_weights[i] == suff_weights[j]:
+                return pref_weights[i]
+            elif pref_weights[i] > suff_weights[j]:
+                i -= 1
+            else:
+                j -= 1
+        return -1
+
+
+# Your WordFilter object will be instantiated and called as such:
+# obj = WordFilter(words)
+# param_1 = obj.f(pref,suff)
