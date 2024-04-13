@@ -1,0 +1,10 @@
+class Solution:
+    def repeatedStringMatch(self, a: str, b: str) -> int:
+        if set(b) - set(a):
+            return -1
+        
+        n = len(b) // len(a) + 2  # maximum number of repetitions to check
+        for i in range(1, n + 1):
+            if b in a * i:
+                return i
+        return -1
