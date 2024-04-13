@@ -1,0 +1,38 @@
+class Solution:
+    def countOfAtoms(self, formula: str) -> str:
+        def parse_atoms(formula, start):
+            atoms = {}
+            while start < len(formula) and formula[start] != ')':
+                if formula[start] == '(':
+                    sub_atoms, start = parse_atoms(formula, start + 1)
+                    multiplier, start = parse_number(formula, start)
+                    for atom, count in sub_atoms.items():
+                        atoms[atom] = atoms.get(atom, 0) + count * multiplier
+                else:
+                    atom_start = start
+                    start += 1
+                    while start < len(formula) and formula[start].islower():
+                        start += 1
+                    atom = formula[atom_start:start]
+                    count, start = parse_number(formula, start)
+                    atoms[atom] = atoms.get(atom, 0) + count
+            return atoms, start + 1
+
+        def parse_number(formula, start):
+            if start == len(formula) or not formula[start].isdigit():
+                return 1, start
+            count_start = start
+            while start < len(formula) and formula[start].isdigit():
+                start += 1
+            return int(formula[count_start:start]), start
+
+        atoms_count, _ = parse_atoms(formula, 0)
+        sorted_atoms = sorted(atoms_count.items())
+
+        result = ""
+        for atom, count in sorted_atoms:
+            result += atom
+            if count > 1:
+                result += str(count)
+
+        return result
