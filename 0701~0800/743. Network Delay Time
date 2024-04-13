@@ -1,0 +1,27 @@
+class Solution:
+    def networkDelayTime(self, times: List[List[int]], n: int, k: int) -> int:
+        # Create adjacency list from times
+        graph = {i: [] for i in range(1, n + 1)}
+        for u, v, w in times:
+            graph[u].append((v, w))
+
+        # Initialize distances with infinity
+        distances = {node: float('inf') for node in range(1, n + 1)}
+        distances[k] = 0
+
+        # Priority queue for Dijkstra's algorithm
+        pq = [(0, k)]
+
+        while pq:
+            time, node = heapq.heappop(pq)
+            if time > distances[node]:
+                continue
+            for neighbor, weight in graph[node]:
+                new_time = time + weight
+                if new_time < distances[neighbor]:
+                    distances[neighbor] = new_time
+                    heapq.heappush(pq, (new_time, neighbor))
+
+        # Check if all nodes are reachable
+        max_time = max(distances.values())
+        return max_time if max_time < float('inf') else -1
