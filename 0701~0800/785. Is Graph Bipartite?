@@ -1,0 +1,23 @@
+class Solution:
+    def isBipartite(self, graph: List[List[int]]) -> bool:
+        n = len(graph)
+        colors = [0] * n  # 0 represents uncolored, 1 and -1 represent two different colors
+        
+        def dfs(node, color):
+            if colors[node] != 0:  # If the node is already colored
+                return colors[node] == color
+            
+            colors[node] = color  # Color the node
+            
+            for neighbor in graph[node]:
+                if not dfs(neighbor, -color):  # Try coloring its neighbors with the opposite color
+                    return False
+                
+            return True
+        
+        for i in range(n):
+            if colors[i] == 0:  # If the node is uncolored
+                if not dfs(i, 1):  # Try coloring it with one color
+                    return False
+                
+        return True
