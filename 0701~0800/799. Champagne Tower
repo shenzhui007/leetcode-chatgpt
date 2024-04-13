@@ -1,0 +1,19 @@
+class Solution:
+    def champagneTower(self, poured: int, query_row: int, query_glass: int) -> float:
+        # Create a 2D array to represent the glasses
+        glasses = [[0.0] * (i + 1) for i in range(100)]
+        
+        # Initialize the top glass with the poured amount
+        glasses[0][0] = poured
+        
+        # Update the glasses from top to bottom
+        for i in range(query_row + 1):
+            for j in range(i + 1):
+                overflow = max(0, glasses[i][j] - 1)
+                glasses[i][j] -= overflow
+                if i + 1 < 100:
+                    glasses[i + 1][j] += overflow / 2
+                    glasses[i + 1][j + 1] += overflow / 2
+        
+        # Return the amount of champagne in the requested glass
+        return min(1.0, glasses[query_row][query_glass])
