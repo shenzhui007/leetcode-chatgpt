@@ -1,0 +1,18 @@
+class Solution:
+    def rotatedDigits(self, n: int) -> int:
+        count = 0
+        for num in range(1, n + 1):
+            if self.isGood(num):
+                count += 1
+        return count
+    
+    def isGood(self, num: int) -> bool:
+        rotate_map = {'0': '0', '1': '1', '2': '5', '5': '2', '6': '9', '8': '8', '9': '6'}
+        num_str = str(num)
+        rotated_num = ''
+        for digit in num_str:
+            if digit in rotate_map:
+                rotated_num += rotate_map[digit]
+            else:
+                return False
+        return rotated_num != num_str
