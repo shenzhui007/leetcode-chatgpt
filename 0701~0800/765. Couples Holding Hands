@@ -1,0 +1,25 @@
+class Solution:
+    def minSwapsCouples(self, row: List[int]) -> int:
+        # Create a dictionary to store the position of each person
+        pos = {x: i for i, x in enumerate(row)}
+        
+        swaps = 0
+        
+        for i in range(0, len(row), 2):
+            # Get the first person of the couple
+            person = row[i]
+            
+            # Find the correct partner based on the person's couple ID
+            correct_partner = person + 1 if person % 2 == 0 else person - 1
+            
+            # Check if the partner is sitting next to the person
+            if row[i + 1] != correct_partner:
+                # Swap the partner with the correct position
+                row[pos[correct_partner]], row[i + 1] = row[i + 1], row[pos[correct_partner]]
+                
+                # Update the position dictionary
+                pos[row[pos[correct_partner]]], pos[correct_partner] = pos[correct_partner], pos[row[pos[correct_partner]]]
+                
+                swaps += 1
+                
+        return swaps
