@@ -1,0 +1,29 @@
+class Solution:
+    def deleteAndEarn(self, nums: List[int]) -> int:
+        # Find the maximum number in the nums list
+        max_num = max(nums)
+        
+        # Create a new list to store the total points for each number
+        points = [0] * (max_num + 1)
+        
+        # Count the occurrences of each number
+        for num in nums:
+            points[num] += num
+        
+        # Initialize two variables to store the previous and current maximum points
+        prev_max = 0
+        curr_max = 0
+        
+        # Iterate through the points list to calculate the maximum points
+        for i in range(len(points)):
+            # Store the current maximum points
+            temp = curr_max
+            
+            # Update the current maximum points based on the previous maximum points and the current points
+            curr_max = max(curr_max, prev_max + points[i])
+            
+            # Update the previous maximum points
+            prev_max = temp
+        
+        # Return the maximum points
+        return curr_max
