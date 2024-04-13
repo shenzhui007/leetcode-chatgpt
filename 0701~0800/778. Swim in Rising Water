@@ -1,0 +1,30 @@
+class Solution:
+    def swimInWater(self, grid: List[List[int]]) -> int:
+        n = len(grid)
+        directions = [(0, 1), (0, -1), (1, 0), (-1, 0)]
+        
+        # Dijkstra's algorithm
+        min_heap = [(grid[0][0], 0, 0)]  # (elevation, row, col)
+        visited = set()
+        time = 0
+        
+        while min_heap:
+            elevation, r, c = heapq.heappop(min_heap)
+            
+            # Update time
+            time = max(time, elevation)
+            
+            # Check if reached destination
+            if r == c == n - 1:
+                return time
+            
+            visited.add((r, c))
+            
+            # Explore neighbors
+            for dr, dc in directions:
+                nr, nc = r + dr, c + dc
+                
+                if 0 <= nr < n and 0 <= nc < n and (nr, nc) not in visited:
+                    heapq.heappush(min_heap, (grid[nr][nc], nr, nc))
+        
+        return -1  # Should not reach here
