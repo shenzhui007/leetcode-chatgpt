@@ -1,0 +1,17 @@
+class Solution:
+    def maxProfit(self, prices: List[int], fee: int) -> int:
+        if not prices:
+            return 0
+        
+        # Initialize variables
+        cash, hold = 0, -prices[0]
+        
+        # Iterate through the prices
+        for price in prices:
+            # Update cash if selling is more profitable
+            cash = max(cash, hold + price - fee)
+            
+            # Update hold if buying is more profitable
+            hold = max(hold, cash - price)
+        
+        return cash
