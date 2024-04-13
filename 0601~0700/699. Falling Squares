@@ -1,0 +1,36 @@
+class Solution:
+    def fallingSquares(self, positions: List[List[int]]) -> List[int]:
+        # Initialize an empty list to store the heights
+        heights = []
+        
+        # Initialize the result list
+        ans = []
+        
+        # Initialize the current max height
+        max_height = 0
+        
+        # Iterate through each square position
+        for left, sideLength in positions:
+            # Calculate the right edge of the current square
+            right = left + sideLength
+            
+            # Find the highest square that intersects with the current square
+            # and update the max_height
+            highest = 0
+            for start, end, h in heights:
+                if left < end and right > start:
+                    highest = max(highest, h)
+            
+            # Calculate the new height of the current square
+            new_height = highest + sideLength
+            
+            # Update the max_height
+            max_height = max(max_height, new_height)
+            
+            # Append the new square to the heights list
+            heights.append((left, right, new_height))
+            
+            # Append the current max_height to the result list
+            ans.append(max_height)
+        
+        return ans
