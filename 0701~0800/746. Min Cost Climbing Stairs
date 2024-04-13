@@ -1,0 +1,15 @@
+class Solution:
+    def minCostClimbingStairs(self, cost: List[int]) -> int:
+        # Initialize dp array to store minimum cost to reach each step
+        dp = [0] * (len(cost) + 1)
+        
+        # Base cases
+        dp[0] = cost[0]
+        dp[1] = cost[1]
+        
+        # Calculate minimum cost to reach each step
+        for i in range(2, len(cost) + 1):
+            dp[i] = min(dp[i-1], dp[i-2]) + (cost[i] if i < len(cost) else 0)
+        
+        # Return minimum cost to reach the top floor
+        return min(dp[-1], dp[-2])
