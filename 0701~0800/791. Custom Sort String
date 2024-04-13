@@ -1,0 +1,23 @@
+class Solution:
+    def customSortString(self, order: str, s: str) -> str:
+        # Create a dictionary to store the count of each character in s
+        char_count = {}
+        for char in s:
+            char_count[char] = char_count.get(char, 0) + 1
+        
+        # Create a result string to store the permuted string
+        result = ''
+        
+        # Iterate through each character in order
+        for char in order:
+            # If the character is present in s, append it to result based on its count
+            if char in char_count:
+                result += char * char_count[char]
+                # Remove the character from char_count dictionary
+                del char_count[char]
+        
+        # Append the remaining characters from s to result
+        for char, count in char_count.items():
+            result += char * count
+        
+        return result
