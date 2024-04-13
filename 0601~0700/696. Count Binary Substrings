@@ -1,0 +1,25 @@
+class Solution:
+    def countBinarySubstrings(self, s: str) -> int:
+        # Initialize variables to keep track of the counts
+        prev_count = 0
+        curr_count = 1
+        total_count = 0
+        
+        # Iterate through the string starting from the second character
+        for i in range(1, len(s)):
+            # If the current character is equal to the previous character, increment the count
+            if s[i] == s[i - 1]:
+                curr_count += 1
+            else:
+                # If the current character is different from the previous character,
+                # update the total count by adding the minimum of previous and current counts
+                total_count += min(prev_count, curr_count)
+                # Update the previous count to the current count
+                prev_count = curr_count
+                # Reset the current count to 1
+                curr_count = 1
+                
+        # Add the minimum of previous and current counts to the total count for the last iteration
+        total_count += min(prev_count, curr_count)
+        
+        return total_count
