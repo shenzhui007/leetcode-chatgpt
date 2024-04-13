@@ -1,0 +1,54 @@
+class Solution:
+    def countPalindromicSubsequences(self, s: str) -> int:
+        MOD = 10**9 + 7
+        n = len(s)
+        
+        # Initialize a DP table to store counts of palindromic subsequences
+        dp = [[0] * n for _ in range(n)]
+        
+        # Initialize the diagonal of the DP table with 1 for single characters
+        for i in range(n):
+            dp[i][i] = 1
+        
+        for length in range(2, n + 1):
+            for i in range(n - length + 1):
+                j = i + length - 1
+                
+                if s[i] == s[j]:
+                    # If the characters at the ends are the same
+                    # Find the next different characters from both ends
+                    left, right = i + 1, j - 1
+                    while left <= right and s[left] != s[i]:
+                        left += 1
+                    while left <= right and s[right] != s[i]:
+                        right -= 1
+                    
+                    if left > right:
+                        # This means there is no other same character as s[i] in between
+                        # So we have two options:
+                        # 1. Consider this character alone
+                        # 2. No character at all
+                        dp[i][j] = dp[i + 1][j - 1] * 2 + 2
+                    elif left == right:
+                        # This means there is one other same character as s[i] in between
+                        # So we have two options:
+                        # 1. Consider this character alone
+                        # 2. Consider both characters alone
+                        dp[i][j] = dp[i + 1][j - 1] * 2 + 1
+                    else:
+                        # This means there are more than one other same characters as s[i] in between
+                        # So we have two options:
+                        # 1. Consider this character alone
+                        # 2. Consider both characters alone
+                        # And subtract the duplicate cases
+                        dp[i][j] = dp[i + 1][j - 1] * 2 - dp[left + 1][right - 1]
+                else:
+                    # If the characters at the ends are different
+                    # Remove one character from the ends and check
+                    dp[i][j] = dp[i + 1][j] + dp[i][j - 1] - dp[i + 1][j - 1]
+                
+                # Make sure the result is non-negative
+                dp[i][j] = (dp[i][j] + MOD) % MOD
+        
+        # The answer is stored at dp[0][n-1]
+        return dp[0][n - 1]
