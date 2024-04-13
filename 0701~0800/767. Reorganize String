@@ -1,0 +1,35 @@
+class Solution:
+    def reorganizeString(self, s: str) -> str:
+        # Calculate the frequency of each character
+        freq = {}
+        for char in s:
+            freq[char] = freq.get(char, 0) + 1
+        
+        # Sort characters by frequency
+        sorted_chars = sorted(freq.keys(), key=lambda x: freq[x], reverse=True)
+        
+        # Check if the string can be rearranged
+        if freq[sorted_chars[0]] > (len(s) + 1) // 2:
+            return ""
+        
+        # Create the rearranged string
+        rearranged = [None] * len(s)
+        
+        # Place the most frequent character at even indices
+        index = 0
+        for char in sorted_chars:
+            while freq[char] > 0 and index < len(s) and index % 2 == 0:
+                rearranged[index] = char
+                freq[char] -= 1
+                index += 2
+        
+        # Place the remaining characters
+        for char in sorted_chars:
+            while freq[char] > 0:
+                if index >= len(s):
+                    index = 1
+                rearranged[index] = char
+                freq[char] -= 1
+                index += 2
+        
+        return ''.join(rearranged)
