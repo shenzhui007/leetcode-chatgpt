@@ -1,0 +1,39 @@
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def splitListToParts(self, head: Optional[ListNode], k: int) -> List[Optional[ListNode]]:
+        # Step 1: Find the length of the linked list
+        length = 0
+        curr = head
+        while curr:
+            length += 1
+            curr = curr.next
+        
+        # Step 2: Calculate the size of each part
+        part_size = length // k
+        extra_nodes = length % k
+        
+        # Step 3: Split the linked list into k parts
+        parts = []
+        curr = head
+        for i in range(k):
+            part_head = curr
+            part_length = part_size + (1 if i < extra_nodes else 0)
+            
+            # Move curr to the end of the current part
+            for _ in range(part_length - 1):
+                if curr:
+                    curr = curr.next
+            
+            # If curr is not None, detach the end of the current part
+            if curr:
+                next_node = curr.next
+                curr.next = None
+                curr = next_node
+            
+            parts.append(part_head)
+        
+        return parts
