@@ -1,0 +1,32 @@
+"""
+# Definition for Employee.
+class Employee:
+    def __init__(self, id: int, importance: int, subordinates: List[int]):
+        self.id = id
+        self.importance = importance
+        self.subordinates = subordinates
+"""
+
+class Solution:
+    def getImportance(self, employees: List['Employee'], id: int) -> int:
+        # Create a dictionary to map employee IDs to their information
+        employee_map = {employee.id: employee for employee in employees}
+        
+        # Function to calculate total importance recursively
+        def dfs(employee_id):
+            employee = employee_map[employee_id]
+            total_importance = employee.importance
+            
+            for subordinate_id in employee.subordinates:
+                total_importance += dfs(subordinate_id)
+            
+            return total_importance
+        
+        # Call the dfs function starting from the given employee ID
+        return dfs(id)
+
+# Example usage:
+# employees = [Employee(1, 5, [2, 3]), Employee(2, 3, []), Employee(3, 3, [])]
+# id = 1
+# solution = Solution()
+# print(solution.getImportance(employees, id))
