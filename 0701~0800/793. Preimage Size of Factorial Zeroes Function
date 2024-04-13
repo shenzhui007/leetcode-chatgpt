@@ -1,0 +1,24 @@
+class Solution:
+    def trailing_zeros(self, n: int) -> int:
+        zeros = 0
+        while n > 0:
+            n //= 5
+            zeros += n
+        return zeros
+    
+    def preimageSizeFZF(self, k: int) -> int:
+        # Binary search to find the range of x
+        left, right = 0, 5*k
+        
+        while left <= right:
+            mid = (left + right) // 2
+            zeros = self.trailing_zeros(mid)
+            
+            if zeros == k:
+                return 5
+            elif zeros < k:
+                left = mid + 1
+            else:
+                right = mid - 1
+                
+        return 0
