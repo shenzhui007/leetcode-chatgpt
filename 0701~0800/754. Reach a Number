@@ -1,0 +1,20 @@
+class Solution:
+    def reachNumber(self, target: int) -> int:
+        # Convert target to positive as we can reflect the path to make it positive
+        target = abs(target)
+        
+        # Calculate the minimum number of moves required
+        # Using the formula for sum of first n natural numbers
+        # n(n+1)/2 should be greater than or equal to target
+        n = int((2 * target) ** 0.5)
+        
+        # Calculate the sum of first n natural numbers
+        total = n * (n + 1) // 2
+        
+        # If total is greater than target, but difference is even,
+        # then we can reflect one of the moves to make the total equal to target
+        while total < target or (total - target) % 2 != 0:
+            n += 1
+            total += n
+        
+        return n
