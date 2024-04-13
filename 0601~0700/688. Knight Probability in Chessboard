@@ -1,0 +1,23 @@
+class Solution:
+    def knightProbability(self, n: int, k: int, row: int, column: int) -> float:
+        # Possible moves for the knight
+        moves = [(2, 1), (1, 2), (-1, 2), (-2, 1),
+                 (-2, -1), (-1, -2), (1, -2), (2, -1)]
+
+        # Initialize a 3D DP array to store the probabilities
+        dp = [[[0] * n for _ in range(n)] for _ in range(k + 1)]
+        
+        # Set initial probability of starting position to 1
+        dp[0][row][column] = 1.0
+
+        # Iterate for each move
+        for step in range(1, k + 1):
+            for r in range(n):
+                for c in range(n):
+                    for dr, dc in moves:
+                        nr, nc = r + dr, c + dc
+                        if 0 <= nr < n and 0 <= nc < n:
+                            dp[step][nr][nc] += dp[step - 1][r][c] / 8.0
+        
+        # Sum up the probabilities of being on the board after k moves
+        return sum(map(sum, dp[k]))
