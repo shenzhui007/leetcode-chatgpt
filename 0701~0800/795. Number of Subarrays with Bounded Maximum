@@ -1,0 +1,14 @@
+class Solution:
+    def numSubarrayBoundedMax(self, nums: List[int], left: int, right: int) -> int:
+        def countSubarrays(nums: List[int], bound: int) -> int:
+            count = 0
+            result = 0
+            for num in nums:
+                if num <= bound:
+                    count += 1
+                else:
+                    count = 0
+                result += count
+            return result
+        
+        return countSubarrays(nums, right) - countSubarrays(nums, left - 1)
